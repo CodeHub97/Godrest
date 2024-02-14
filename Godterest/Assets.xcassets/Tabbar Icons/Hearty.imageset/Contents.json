@@ -1,0 +1,27 @@
+{
+  "images" : [
+    {
+      "filename" : "streamline_interface-favorite-heart-reward-social-rating-media-heart-it-like-favorite-love.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "streamline_interface-favorite-heart-reward-social-rating-media-heart-it-like-favorite-love@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "streamline_interface-favorite-heart-reward-social-rating-media-heart-it-like-favorite-love@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true,
+    "template-rendering-intent" : "template"
+  }
+}
