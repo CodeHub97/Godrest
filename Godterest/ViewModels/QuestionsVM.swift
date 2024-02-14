@@ -113,6 +113,8 @@ class QuestionsVM : ObservableObject{
     @Published var GenderSelect:Gender = .Male
     @Published var SelectedProfession = ""
     @Published var isSelectedProfession : String = ""
+  @Published var studied = ""
+  @Published var studiedAt = ""
     @Published var SelectedProfilePic = ""
     @Published var isSelectedProfilePic : String = ""
     @Published var SelectedProfileUIImage = UIImage()
@@ -158,8 +160,6 @@ class QuestionsVM : ObservableObject{
     @Published var CountryIndex : Int = 1
     @Published var StateIndex : Int = 1
     @Published var PostCode : String = ""
-    @Published var FullAddress = ""
-
     
     @Published var errorMessage:String = ""
     @Published var SignupapiCompleted = false
@@ -183,7 +183,7 @@ class QuestionsVM : ObservableObject{
     
     func validateFields() -> Bool {
         // Check if all fields are filled
-        if Email.isEmpty || Password.isEmpty || GenderSelect.stringValue.isEmpty || Name.isEmpty || formattedDateOfBirth.isEmpty || SelectedDenomination.isEmpty || SelectedProfession.isEmpty || SelectedEthnic.isEmpty || SelectedEducation.isEmpty || SelectedHeight.isEmpty || SelectedMaritalStatues.isEmpty || SelectedHobbies.isEmpty || SelectedSmokeHabit.isEmpty || SelectedDrinkHabit.isEmpty || SelectedHaveChildren.isEmpty || SelectedWantChildren.isEmpty || Bio.isEmpty {
+        if Email.isEmpty || Password.isEmpty || GenderSelect.stringValue.isEmpty || Name.isEmpty || formattedDateOfBirth.isEmpty || SelectedDenomination.isEmpty || SelectedProfession.isEmpty || studied.isEmpty || studiedAt.isEmpty || SelectedEthnic.isEmpty || SelectedEducation.isEmpty || SelectedHeight.isEmpty || SelectedMaritalStatues.isEmpty || SelectedHobbies.isEmpty || SelectedSmokeHabit.isEmpty || SelectedDrinkHabit.isEmpty || SelectedHaveChildren.isEmpty || SelectedWantChildren.isEmpty || Bio.isEmpty {
             print("All fields must be filled")
             return false
         }
@@ -300,14 +300,6 @@ class QuestionsVM : ObservableObject{
         self.isSelectedOtherPics = ""
         self.SelectedOtherPicsUIImage = nil
         self.isSelectedOtherPicsUIImage = ""
-        self.Selectedlatitude = 0.0
-        self.Selectedlongitude = 0.0
-        self.FullAddress = ""
-        self.AddressLineOne = ""
-        self.City = ""
-        self.State = ""
-        self.Country = ""
-        self.PostCode = ""
     }
     
     func HitCreateAccount() {
@@ -356,7 +348,7 @@ class QuestionsVM : ObservableObject{
                     ),
                     profilePic: profile,
                     smoke: self.SelectedSmokeHabit,
-                    otherPic: otherPicsURL,
+                    otherPic: "as",
                     hobbies: self.SelectedHobbies,
                     dob: self.formattedDateOfBirth,
                     name: self.Name,
@@ -444,7 +436,7 @@ class QuestionsVM : ObservableObject{
 //        }
 //        print(savedLoginData.data?.id)
 //        let url = "\(MatchedVM.BaseURL)/user/user-profiles"
-//        
+//
 //        let userProfile = UserProfile(
 //            id: "\(savedLoginData.data?.id ?? 0)",
 //            email: Email,
@@ -471,7 +463,7 @@ class QuestionsVM : ObservableObject{
 //        )
 //        print("Edit Profile Url ", url)
 //        print("Created Params ", userProfile)
-//        
+//
 //        AF.request(url, method: .post, parameters: userProfile, encoder: JSONParameterEncoder.default).response { response in
 //            // Handle the response here
 //            if let data = response.data {
