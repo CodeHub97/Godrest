@@ -488,47 +488,51 @@ struct AddHobbies: View {
         VStack{
             ZStack {
                 BackButton()
-                Text("Hobbies").fontWeight(.medium).foregroundColor(Color.primary).font(.custom("Avenir", size: 20))
             }.padding(.top)
-            
-            VStack(alignment: .center,spacing: 20 ) {
-                
-                
-                VStack(alignment: .center,spacing: 5 ) {
-                    
-                    AddText(TextString: "Let's start with the basics. Your hobbies helps us find the perfect match.", TextSize: 14).padding(.bottom)
-                    AddText(TextString: "Please select any four", TextSize: 14)
+            VStack(alignment: .leading) {
+                VStack(alignment: .leading,spacing: 05 ) {
+                    AddText(TextString: "Let's start with the basics. Your hobbies helps us find the perfect match.", TextSize: 22, FontWeight: .bold).padding(.top)
+                    AddText(TextString: "Please select any four", TextSize: 20, FontWeight: .regular)
                     Divider().offset(y: 5)
                     
                     ScrollView {
-                        LazyVGrid(columns: [GridItem(.flexible()),GridItem(.flexible())], spacing: 10) {
+                        LazyVGrid(columns: [GridItem(.flexible()),GridItem(.flexible())], spacing: 15) {
                             ForEach(CreateAccountVM.hobbies, id: \.self) { hobby in
                                 Button(action: {
                                     self.toggleSelection(for: hobby)
                                 }) {
                                     
-                                    AddText(TextString: hobby, TextSize: 12,Color:.white,FontWeight: .medium, Alignment:.center).shadow(color: .black.opacity(0.5), radius: 3, x: 1, y: 0.5)
-                                        .lineLimit(1)
-                                        .padding()
-                                        .frame(width: 120)
-                                        .background(CreateAccountVM.selectedHobbiesArray.contains(hobby) ? Capsule() .gradientText(colors: [Color("App Red"), Color("App Yellow")], startPoint: .leading, endPoint: .trailing) : Capsule() .gradientText(colors: [Color.black.opacity(0.5), Color.black.opacity(0.5)], startPoint: .leading, endPoint: .trailing))
-                                        .cornerRadius(40).shadow(color: .black.opacity(0.5), radius: 3, x: 1, y: 0.5)
+                                    HStack {
+                                        Text(hobby).frame(maxWidth: .infinity,alignment:.leading)
+                                            .background(.blue.opacity(0.00005))
+                                            .fontWeight(.medium)
+                                            .font(.custom("Avenir", size: 18)).foregroundColor(Color.primary).minimumScaleFactor(0.2)
+                                        if CreateAccountVM.selectedHobbiesArray.contains(hobby) {
+                                            Image("ic_checked").frame(width: 20, height: 20, alignment: .center)
+                                                .aspectRatio(contentMode: .fill)
+                                        }else {
+                                            Image("ic_uncheck").frame(width: 20, height: 20, alignment: .center)
+                                                .aspectRatio(contentMode: .fill)
+                                        }
+                                    }
+                                    .lineLimit(1)
+                                    .padding()
+                                    .frame(width: UIScreen.main.bounds.width / 2 - 30) // 165
+                                    .background(Color.white)
+                                    .cornerRadius(12)
                                 }
                             }
                         }
-                        .padding()
+                        .padding(.top)
                     }
                     
                     Spacer()
-                    CustomButton(ButtonTitle: "Continue", ButtonType: .Hobbies ,View: AnyView(QuestionsViewNew())).padding(.all).disabled(CreateAccountVM.selectedHobbiesArray.count < 4)
+                    CustomButtonOnboarding(ButtonTitle: "Continue", ButtonType: .Hobbies ,View: AnyView(QuestionsViewNew())).disabled(CreateAccountVM.selectedHobbiesArray.count < 4)
                 }.padding(.horizontal ,20)
                 
-            }.padding(20)
-            
-            
+            }
             Spacer()
-            
-        }
+        }.background(Color("App Background"))
     }
     
     private func getSelectedHobbiesString() -> String {

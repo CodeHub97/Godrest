@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import _PhotosUI_SwiftUI
 
 struct EditProfileScreen: View {
     
@@ -21,7 +22,8 @@ struct EditProfileScreen: View {
     @State private var failure = false
     
     @State private var selectedDate = Date()
-    
+    @State private var selectedItems: [PhotosPickerItem] = []
+
     // Gender
     var genders = ["Male", "Female", "Other"]
     @State private var isGenderPickerVisible = false
@@ -292,20 +294,68 @@ struct EditProfileScreen: View {
                                     }
                                 }
                                 .id(index) // Use index as the ID
+                                .onTapGesture {
+                                        let currentIndexImageUrl = ProfileViewModel.images[index]
+                                        let profileImageUrl = ProfileViewModel.ProfilePic
+                                        self.ProfileViewModel.images[index] = " "
+                                        self.ProfileViewModel.ProfilePic = " "
+                                        
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                                        self.ProfileViewModel.ProfilePic = currentIndexImageUrl
+                                        self.ProfileViewModel.images[index] = profileImageUrl
+                                    })
+                                }
                             }
                         }
                         
                         // Placeholder rectangle with "Add More" button
-                        if ProfileViewModel.images.isEmpty || ProfileViewModel.images.count % 3 != 0 {
-                            RoundedRectangle(cornerRadius: 10).stroke(style: StrokeStyle(lineWidth: 2, lineCap: CGLineCap.square,  dash: [4,6], dashPhase: 24)).padding(.top,2)
-                                .gradientText(colors: [Color("App Red"), Color("App Yellow")], startPoint: .leading, endPoint: .trailing)
-                                .frame(width: 90, height: 90)
-                                .overlay(Image("camera").onTapGesture {
-                                    ShowToast.toggle()
-                                })
+                        if ProfileViewModel.images.isEmpty || ProfileViewModel.images.count % 6 != 0 { //ProfileViewModel.images.isEmpty || ProfileViewModel.images.count % 3 != 0
+                            PhotosPicker(selection: $selectedItems,maxSelectionCount: 6 - ProfileViewModel.images.count, matching: .images) {
+                                RoundedRectangle(cornerRadius: 10).stroke(style: StrokeStyle(lineWidth: 2, lineCap: CGLineCap.square,  dash: [4,6], dashPhase: 24)).padding(.top,2)
+                                    .gradientText(colors: [Color("App Red"), Color("App Yellow")], startPoint: .leading, endPoint: .trailing)
+                                    .frame(width: 90, height: 90)
+                                    .overlay(Image("camera"))
+                            }
+                            .onChange(of: selectedItems) { selectedItems in
+                                var imageArray = [UIImage]()
+                                let dispatchGroup = DispatchGroup()
+
+                                for item in selectedItems {
+                                    dispatchGroup.enter()
+                                    item.loadTransferable(type: Data.self) { result in
+                                        defer { dispatchGroup.leave() }
+                                        switch result {
+                                        case .success(let imageData):
+                                            if let imageData = imageData {
+                                                if let uiImage = UIImage(data: imageData) {
+                                                    imageArray.append(uiImage)
+                                                }
+                                            } else {
+                                                print("No supported content type found.")
+                                            }
+                                        case .failure(let error):
+                                            print(error)
+                                        }
+                                    }
+                                }
+                                dispatchGroup.notify(queue: .main) {
+                                    if imageArray.count > 0 {
+                                        isProgresViewOverlayVisible.toggle()
+                                        ProfileViewModel.uploadMultipleFiles(images: imageArray) { imageUrl in
+                                            self.isProgresViewOverlayVisible.toggle()
+                                            if let images = imageUrl?.components(separatedBy: ",") {
+                                                for i in images {
+                                                    ProfileViewModel.images.append(i)
+                                                }
+                                                self.selectedItems = []
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }.padding(.all,20)
-                }.frame(height: 180)
+                }//.frame(height: 180)
                 
                 VStack(spacing: 0){
                     AddTextwithgradint(TextString: "ABOUT ME", TextSize: 16,FontWeight: .medium).frame(maxWidth: .infinity,alignment: .leading).padding(.bottom)

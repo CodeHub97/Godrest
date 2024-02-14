@@ -66,14 +66,18 @@ struct Matched: View {
         }.padding(.horizontal)
 
         if MatchedViewModel.allMatchedProfiles.isEmpty{
-
-
-          Text("No results found...")
-            .font(.custom("Grandista", size: 22))
-          .gradientText(colors: [Color("App Red"),Color("App Yellow")], startPoint: .leading, endPoint: .trailing)
-          .frame(maxHeight: .infinity,alignment: .center)
-
-
+            VStack{
+                Spacer()
+                Image("img_noMatches")
+                Text("No matches yet.")
+                    .fontWeight(.bold).foregroundColor(Color.primary).font(.custom("Avenir", size: 25))
+                Text("With a little faith and patience the right one will comein God's perfect timing!")
+                    .fontWeight(.regular).foregroundColor(Color.primary).font(.custom("Avenir", size: 16))
+                    .frame(maxWidth: 250,alignment: .center)
+                    .multilineTextAlignment(.center)
+                Spacer()
+                Spacer()
+            }.frame(maxHeight: .infinity,alignment: .center)
         }else{
 
           ScrollView(showsIndicators: false) {
@@ -116,16 +120,16 @@ struct Matched: View {
                         AddText(TextString: MatchedViewModel.allMatchedProfiles[index].name ?? "", TextSize: 16,Color: Color.white, FontWeight: .bold, Alignment: .center)
                         HStack(spacing: 2) {
                           Image("globe").resizable().renderingMode(.template).frame(width: 10, height: 10).foregroundColor(.white)
-                          AddText(TextString: "\(MatchedViewModel.allMatchedProfiles[index].address?.city ?? "LAKESIDE") • 20 KMS AWAY", TextSize: 10,Color: Color.white,FontWeight: .bold).lineLimit(1)
+                            AddText(TextString: "\(MatchedViewModel.allMatchedProfiles[index].address?.city ?? "LAKESIDE") • 12 Miles AWAY", TextSize: 10,Color: Color.white,FontWeight: .bold).lineLimit(1).minimumScaleFactor(0.2)
                           Spacer()
                           
                         }.padding(.leading)
-                        AddText(TextString: "10 MIN AGO", TextSize: 10,Color: Color.white,FontWeight: .medium, Alignment: .center)
+//                        AddText(TextString: "10 MIN AGO", TextSize: 10,Color: Color.white,FontWeight: .medium, Alignment: .center)
                       }
                       .overlay{
-                        VStack {
-                          Image("Heart small")
-                        }.frame(width: UIScreen.main.bounds.width/2.5, height: UIScreen.main.bounds.height/11, alignment: .topLeading)
+//                        VStack {
+//                          Image("Heart small")
+//                        }.frame(width: UIScreen.main.bounds.width/2.5, height: UIScreen.main.bounds.height/11, alignment: .topLeading)
                       }
                     }.frame(width: UIScreen.main.bounds.width/2.5 ,height: UIScreen.main.bounds.height/11.5).frame(maxHeight: .infinity,alignment: .bottom).offset(y: UIScreen.main.bounds.height * -2/90)
                     

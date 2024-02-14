@@ -12,9 +12,10 @@ struct DonationVC: View {
         VStack {
             ZStack {
                 NavigationLink {
-                 //   Login()
+                  //  Login()
                   LandingView()
-                 
+                  
+                  //  QuestionsViewNew()
                  
                         .navigationBarBackButtonHidden(true)
                 } label: {
@@ -68,7 +69,6 @@ struct DonationVC: View {
 struct DonationVC_Previews: PreviewProvider {
     static var previews: some View {
         DonationVC()
-      
     }
 }
 

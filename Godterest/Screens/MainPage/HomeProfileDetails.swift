@@ -97,7 +97,7 @@ var body: some View {
             AddText(TextString: UserProfileHomepage?.name ?? "Lorea", TextSize: getValueForCurrentDevice(type: "Fonts") + 13,Color: Color.white,FontWeight: .bold, Alignment: .leading,FontFamily: "Grandista").shadow(color: .black.opacity(0.5), radius: 4, x: 1, y: 0.5)
             HStack {
               Image("globe").resizable().frame(width: 15, height: 15)
-              AddText(TextString: "\(UserProfileHomepage?.address?.city ?? "LAKESIDE") • 20 KMS AWAY", TextSize: getValueForCurrentDevice(type: "Fonts") + 4,Color: Color.white,FontWeight: .medium).shadow(color: .black.opacity(0.5), radius: 4, x: 1, y: 0.5)
+              AddText(TextString: "\(UserProfileHomepage?.address?.city ?? "LAKESIDE") • 12 Miles AWAY", TextSize: getValueForCurrentDevice(type: "Fonts") + 4,Color: Color.white,FontWeight: .medium).shadow(color: .black.opacity(0.5), radius: 4, x: 1, y: 0.5)
 
               Spacer() 
             }

@@ -154,7 +154,7 @@ class EditProfileViewModel : ObservableObject{
             "ethnicGroup": SelectedEthnic,
             "education": SelectedEducation,
             "profilePic": ProfilePic,//ProfilepicDemoURLS.randomElement() ?? ProfilepicDemoURLS[ProfilepicDemoURLS.count - 1],
-            "otherPic": OtherPics,//"\(ProfilepicDemoURLS[0]),\(ProfilepicDemoURLS[1]),\(ProfilepicDemoURLS[2]),\(ProfilepicDemoURLS[3]),\(ProfilepicDemoURLS[4])"
+            "otherPic":images.joined(separator:","), //OtherPics,//"\(ProfilepicDemoURLS[0]),\(ProfilepicDemoURLS[1]),\(ProfilepicDemoURLS[2]),\(ProfilepicDemoURLS[3]),\(ProfilepicDemoURLS[4])"
             "latitude": "30.451",
             "longitude": "70.354",
             "tall": tall,
@@ -205,6 +205,29 @@ class EditProfileViewModel : ObservableObject{
                 
             case .failure(let error):
                 print("Error uploading profile image: \(error)")
+                completion(nil)
+            }
+        }
+    }
+    
+    func uploadMultipleFiles(images:[UIImage],completion: @escaping (String?) -> Void) {
+        let selectedImages = images
+        let url = "\(MatchedVM.BaseURL)/aws/upload-multiple-files"
+        let imageDataArray = selectedImages.compactMap { $0.jpegData(compressionQuality: 0.5) }
+        AF.upload(multipartFormData: { multipartFormData in
+            for (index, imageData) in imageDataArray.enumerated() {
+                multipartFormData.append(imageData, withName: "files", fileName: "file\(index).jpg", mimeType: "image/jpeg")
+            }
+        }, to: url)
+        .responseDecodable(of: UploadResponse.self) { response in
+            switch response.result {
+            case .success(let uploadResponse):
+                let profile = uploadResponse.url?.replacingOccurrences(of: "AKIAUWX5SL2ZDHVG7KO2", with: "")
+                print("Uploaded URLs: \(uploadResponse.url ?? "")")
+                completion(uploadResponse.url)
+                
+            case .failure(let error):
+                print("Error uploading multiple files: \(error)")
                 completion(nil)
             }
         }

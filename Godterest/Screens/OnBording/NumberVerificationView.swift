@@ -11,6 +11,7 @@ import iPhoneNumberField
 struct NumberVerificationView: View {
     @EnvironmentObject var CreateAccountVM : QuestionsVM
   @State private var text: String = ""
+    @FocusState private var isFocused: Bool
     var body: some View {
        
         VStack{
@@ -31,11 +32,7 @@ struct NumberVerificationView: View {
                             .flagHidden(false)
                             .flagSelectable(true)
                             .prefixHidden(false)
-                       
-                            
-                           // .flagHidden(false)
-                                        //.flagSelectable(true)
-                                        
+                            .focused($isFocused)
                             .onChange(of: CreateAccountVM.mobileNumber) { oldValue, newValue in
                                 print("Changing from \(oldValue) to \(newValue)")
                             }
@@ -66,13 +63,10 @@ struct NumberVerificationView: View {
             
         }.navigationBarBackButtonHidden()
         .background( Color(Color("App Background")))
-
         .onAppear {
-          
+            isFocused = true
         }
     }
-  
-
 }
 
 #Preview {
@@ -86,7 +80,6 @@ struct VerifyView: View {
     @EnvironmentObject var CreateAccountVM : QuestionsVM
    
     var body: some View {
-       
         VStack{
             BackButton().padding(.top)
             Spacer(minLength: 20)
