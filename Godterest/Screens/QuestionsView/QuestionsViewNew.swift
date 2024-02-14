@@ -12,6 +12,7 @@ struct QuestionsViewNew: View {
   enum QuestionType {
     case first
     case second
+    case study
     case third
     case fourth
     case fifth
@@ -37,26 +38,28 @@ struct QuestionsViewNew: View {
     case 2:
       return .second
     case 3:
-      return .third
+      return .study
     case 4:
-      return .fourth
+      return .third
     case 5:
-      return .fifth
+      return .fourth
     case 6:
-      return .sixth
+      return .fifth
     case 7:
-      return .seventh
+      return .sixth
     case 8:
-      return .eighth
+      return .seventh
     case 9:
-      return .ninth
+      return .eighth
     case 10:
-      return .tenth
+      return .ninth
     case 11:
-      return .eleventh
+      return .tenth
     case 12:
-      return .twelvth
+      return .eleventh
     case 13:
+      return .twelvth
+    case 14:
       return .thirteen
     default:
       return .first
@@ -96,6 +99,12 @@ struct QuestionsViewNew: View {
         FirstQuestionNew(CreateAccountVM: CreateAccountVM, selectedItem: $selectedItem)
           .transition(AnyTransition.asymmetric(insertion: AnyTransition.move(edge: !Gonext ? .leading : .trailing), removal: AnyTransition.move(edge:.bottom ))
           )
+        
+      case .study:
+        StudyQuestionNew(CreateAccountVM: CreateAccountVM)
+          .transition(AnyTransition.asymmetric(insertion: AnyTransition.move(edge: !Gonext ? .leading : .trailing), removal: AnyTransition.move(edge: .bottom ))
+          )
+        
       case .second:
         SecondQuestionNew(CreateAccountVM: CreateAccountVM, selectedItem: $selectedItem)
           .transition(AnyTransition.asymmetric(insertion: AnyTransition.move(edge: !Gonext ? .leading : .trailing), removal: AnyTransition.move(edge: .bottom ))
@@ -350,6 +359,57 @@ struct SecondQuestionNew: View {
     }
   }
 }
+
+struct CustomVStackView: View {
+   var title: String
+  @Binding var text: String
+  
+  
+  init(title: String, text: Binding<String>) {
+    self.title = title
+    self._text = text
+  }
+  
+  
+  var body: some View {
+    VStack(alignment: .leading, spacing: 8 ) {
+      AddText(TextString: title, TextSize: 15, Color: .primary, FontWeight: .bold)
+      HStack {
+        TextField("Type here", text: $text)
+          .frame(height: 30)
+          .background(Color.clear)
+          .textFieldStyle(PlainTextFieldStyle())
+          .fontWeight(.regular).font(.custom("Avenir", size: 16))
+          .foregroundColor(Color.black)
+        Spacer()
+      }
+    }.padding(15)
+          .background(RoundedRectangle(cornerRadius: 10)
+            .stroke(lineWidth: 2)
+            .foregroundColor(.gray)
+            .opacity(0.2)
+            .frame(height: 80)
+            .background(Color.white)
+            .cornerRadius(10))
+          .padding(.horizontal,20)
+  }
+}
+
+struct StudyQuestionNew: View {
+  @StateObject var CreateAccountVM: QuestionsVM
+
+  var body: some View {
+    ScrollView{
+      AddText(TextString: "What did you study?", TextSize: 30, FontWeight: .bold)
+        .frame(alignment: .leading)
+            .padding(.horizontal,20)
+      
+      CustomVStackView(title: "I studied", text: $CreateAccountVM.studied)
+      CustomVStackView(title: "I studied at", text: $CreateAccountVM.studiedAt)
+    }
+  }
+}
+
 
 struct ThirdQuestionNew: View {
   @StateObject var CreateAccountVM:QuestionsVM

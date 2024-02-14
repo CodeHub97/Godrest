@@ -115,6 +115,8 @@ class QuestionsVM : ObservableObject{
     @Published var isSelectedProfession : String = ""
     @Published var SelectedProfilePic = ""
     @Published var isSelectedProfilePic : String = ""
+  @Published var studied = ""
+  @Published var studiedAt = ""
     @Published var SelectedProfileUIImage = UIImage()
     @Published var isSelectedProfileUIImage : String = ""
     @Published var SelectedOtherPics = ""
@@ -183,10 +185,10 @@ class QuestionsVM : ObservableObject{
     
     func validateFields() -> Bool {
         // Check if all fields are filled
-        if Email.isEmpty || Password.isEmpty || GenderSelect.stringValue.isEmpty || Name.isEmpty || formattedDateOfBirth.isEmpty || SelectedDenomination.isEmpty || SelectedProfession.isEmpty || SelectedEthnic.isEmpty || SelectedEducation.isEmpty || SelectedHeight.isEmpty || SelectedMaritalStatues.isEmpty || SelectedHobbies.isEmpty || SelectedSmokeHabit.isEmpty || SelectedDrinkHabit.isEmpty || SelectedHaveChildren.isEmpty || SelectedWantChildren.isEmpty || Bio.isEmpty {
-            print("All fields must be filled")
-            return false
-        }
+      if Email.isEmpty || Password.isEmpty || GenderSelect.stringValue.isEmpty || Name.isEmpty || formattedDateOfBirth.isEmpty || SelectedDenomination.isEmpty || SelectedProfession.isEmpty || studied.isEmpty || studiedAt.isEmpty || SelectedEthnic.isEmpty || SelectedEducation.isEmpty || SelectedHeight.isEmpty || SelectedMaritalStatues.isEmpty || SelectedHobbies.isEmpty || SelectedSmokeHabit.isEmpty || SelectedDrinkHabit.isEmpty || SelectedHaveChildren.isEmpty || SelectedWantChildren.isEmpty || Bio.isEmpty {
+          print("All fields must be filled")
+          return false
+      }
         
         // Check email validation
         if !isValidEmail(email: Email) {
@@ -308,6 +310,9 @@ class QuestionsVM : ObservableObject{
         self.State = ""
         self.Country = ""
         self.PostCode = ""
+      
+      self.studied = ""
+      self.studiedAt = ""
     }
     
     func HitCreateAccount() {
