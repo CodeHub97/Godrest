@@ -2,7 +2,7 @@
 //  AccountSetup.swift
 //  Godterest
 //
-//  Created by Varjeet Singh on 08/09/23.
+//  Created by Gaganpreet
 //
 
 import SwiftUI

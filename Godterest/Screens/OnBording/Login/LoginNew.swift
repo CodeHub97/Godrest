@@ -1,8 +1,8 @@
 //
-//  Login_New.swift
+//  AccountSetup.swift
 //  Godterest
 //
-//  Created by Offsureit Solutions on 24/01/24.
+//  Created by Gaganpreet
 //
 
 import SwiftUI

@@ -1,10 +1,10 @@
 //
 //  QuestionsViewNew.swift
+
 //  Godterest
 //
-//  Created by Bajrang Sinha on 17/01/24.
+//  Created by Gaganpreet
 //
-
 import SwiftUI
 
 struct QuestionsViewNew: View {

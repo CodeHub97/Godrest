@@ -1,8 +1,9 @@
 //
-//  ReportOtherUserView.swift
+//  QuestionsViewNew.swift
+
 //  Godterest
 //
-//  Created by Bajrang Sinha on 22/01/24.
+//  Created by Gaganpreet
 //
 
 import SwiftUI
