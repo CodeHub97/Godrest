@@ -12,6 +12,7 @@ struct QuestionsViewNew: View {
   enum QuestionType {
     case first
     case second
+    case study
     case third
     case fourth
     case fifth
@@ -27,7 +28,7 @@ struct QuestionsViewNew: View {
 
   @EnvironmentObject var CreateAccountVM : QuestionsVM
   @State private var selectedItem: Int?
-  @State private var selectedQuestion = 1
+  @State private var selectedQuestion = 3
   @State private var isAnimating = false
   @State var Gonext = true
   var questionType: QuestionType {
@@ -37,26 +38,28 @@ struct QuestionsViewNew: View {
     case 2:
       return .second
     case 3:
-      return .third
+      return .study
     case 4:
-      return .fourth
+      return .third
     case 5:
-      return .fifth
+      return .fourth
     case 6:
-      return .sixth
+      return .fifth
     case 7:
-      return .seventh
+      return .sixth
     case 8:
-      return .eighth
+      return .seventh
     case 9:
-      return .ninth
+      return .eighth
     case 10:
-      return .tenth
+      return .ninth
     case 11:
-      return .eleventh
+      return .tenth
     case 12:
-      return .twelvth
+      return .eleventh
     case 13:
+      return .twelvth
+    case 14:
       return .thirteen
     default:
       return .first
@@ -100,6 +103,11 @@ struct QuestionsViewNew: View {
         SecondQuestionNew(CreateAccountVM: CreateAccountVM, selectedItem: $selectedItem)
           .transition(AnyTransition.asymmetric(insertion: AnyTransition.move(edge: !Gonext ? .leading : .trailing), removal: AnyTransition.move(edge: .bottom ))
           )
+      case .study:
+        StudyQuestionNew(CreateAccountVM: CreateAccountVM)
+          .transition(AnyTransition.asymmetric(insertion: AnyTransition.move(edge: !Gonext ? .leading : .trailing), removal: AnyTransition.move(edge: .bottom ))
+          )
+        
       case .third:
         ThirdQuestionNew(CreateAccountVM: CreateAccountVM, selectedItem: $selectedItem)
           .transition(AnyTransition.asymmetric(insertion: AnyTransition.move(edge: !Gonext ? .leading : .trailing), removal: AnyTransition.move(edge: .bottom ))
@@ -177,10 +185,12 @@ struct QuestionsViewNew: View {
             Text("Update").fontWeight(.bold).foregroundColor(Color.white).font(.custom("Avenir", size: 18))
             Spacer()
           }.frame( height: 60, alignment: .center)
-                .background(RoundedRectangle(cornerRadius: 30)).foregroundStyle(LinearGradient(colors: [!shouldDisableNextButton() ? Color.black : Color.gray , !shouldDisableNextButton() ? Color.black : Color.gray ], startPoint: .leading, endPoint: .trailing)
+                .background(RoundedRectangle(cornerRadius: 30))
+                .foregroundStyle(LinearGradient(colors: [!shouldDisableNextButton() ? Color.black : Color.gray , !shouldDisableNextButton() ? Color.black : Color.gray ], startPoint: .leading, endPoint: .trailing)
             )
         }.padding()
           .disabled(isAnimating || shouldDisableNextButton())
+          
       }
 
     }.navigationBarBackButtonHidden(true)
@@ -200,32 +210,34 @@ struct QuestionsViewNew: View {
     if selectedQuestion == 1 && CreateAccountVM.SelectedDenomination.isEmpty   {
       print("here")
       return true
-    } else if selectedQuestion == 2 && CreateAccountVM.SelectedProfession.isEmpty || CreateAccountVM.SelectedProfession != CreateAccountVM.isSelectedProfession {
+    } else if selectedQuestion == 2 && CreateAccountVM.SelectedProfession.isEmpty  {
       return true
-    }else if selectedQuestion == 3 && CreateAccountVM.SelectedEthnic.isEmpty || CreateAccountVM.SelectedEthnic != CreateAccountVM.isSelectedEthnic {
+    } else if selectedQuestion == 3 && (CreateAccountVM.studied.isEmpty || CreateAccountVM.studiedAt.isEmpty)  {
       return true
-    }else if selectedQuestion == 4 && CreateAccountVM.SelectedEducation.isEmpty || CreateAccountVM.SelectedEducation != CreateAccountVM.isSelectedEducation {
+    }else if selectedQuestion == 4 && CreateAccountVM.SelectedEthnic.isEmpty || CreateAccountVM.SelectedEthnic != CreateAccountVM.isSelectedEthnic {
       return true
-    }else if (selectedQuestion == 5 &&  CreateAccountVM.PostCode.isEmpty) || (selectedQuestion == 5 && CreateAccountVM.City.isEmpty)  || (selectedQuestion == 5 && CreateAccountVM.Country.isEmpty) || (selectedQuestion == 5 && CreateAccountVM.State.isEmpty) {
+    }else if selectedQuestion == 5 && CreateAccountVM.SelectedEducation.isEmpty || CreateAccountVM.SelectedEducation != CreateAccountVM.isSelectedEducation {
+      return true
+    }else if (selectedQuestion == 6 &&  CreateAccountVM.PostCode.isEmpty) || (selectedQuestion == 6 && CreateAccountVM.City.isEmpty)  || (selectedQuestion == 6 && CreateAccountVM.Country.isEmpty) || (selectedQuestion == 6 && CreateAccountVM.State.isEmpty) {
       print(selectedQuestion)
       print(CreateAccountVM.PostCode)
       print(CreateAccountVM.City)
       return true
-    }else if selectedQuestion == 6 && CreateAccountVM.SelectedHeight.isEmpty  {
+    }else if selectedQuestion == 7 && CreateAccountVM.SelectedHeight.isEmpty  {
       return true
-    }else if selectedQuestion == 7 && CreateAccountVM.SelectedMaritalStatues.isEmpty {
+    }else if selectedQuestion == 8 && CreateAccountVM.SelectedMaritalStatues.isEmpty {
       return true
-    }else if selectedQuestion == 8 && CreateAccountVM.SelectedSmokeHabit.isEmpty  {
+    }else if selectedQuestion == 9 && CreateAccountVM.SelectedSmokeHabit.isEmpty  {
       return true
-    }else if selectedQuestion == 9 && CreateAccountVM.SelectedDrinkHabit.isEmpty  {
+    }else if selectedQuestion == 10 && CreateAccountVM.SelectedDrinkHabit.isEmpty  {
       return true
-    }else if selectedQuestion == 10 && CreateAccountVM.SelectedHaveChildren.isEmpty {
+    }else if selectedQuestion == 11 && CreateAccountVM.SelectedHaveChildren.isEmpty {
       return true
-    }else if selectedQuestion == 11 && CreateAccountVM.SelectedWantChildren.isEmpty {
+    }else if selectedQuestion == 12 && CreateAccountVM.SelectedWantChildren.isEmpty {
       return true
-    }else if selectedQuestion == 12 && CreateAccountVM.SelectedChurchCommunity.isEmpty {
+    }else if selectedQuestion == 13 && CreateAccountVM.SelectedChurchCommunity.isEmpty {
         return true
-    }else if selectedQuestion == 13 && CreateAccountVM.Bio.isEmpty {
+    }else if selectedQuestion == 14 && CreateAccountVM.Bio.isEmpty {
       return true
     }
     return false
@@ -298,55 +310,115 @@ struct SecondQuestionNew: View {
   @StateObject var CreateAccountVM: QuestionsVM
   @Binding var selectedItem: Int?
 
-  var filteredProfessions: [String] {
+//  var filteredProfessions: [String] {
 //    guard !CreateAccountVM.SelectedProfession.isEmpty else {
 //      return CreateAccountVM.professions
 //    }
-    return CreateAccountVM.professions/*.filter { $0.localizedCaseInsensitiveContains(CreateAccountVM.SelectedProfession) }*/
-  }
-
+//    return CreateAccountVM.professions.filter { $0.localizedCaseInsensitiveContains(CreateAccountVM.SelectedProfession) }
+//  }
 
   var body: some View {
-      AddText(TextString: "What’s is your profession?", TextSize: 30, FontWeight: .bold).frame(alignment: .leading)
-            .padding(.horizontal,20)
     ScrollView{
-     
-//      VStack(alignment: .leading, spacing: 8) {
-//        HStack {
-//          Image("Magnifier")
-//          TextField("Search Profession", text: $CreateAccountVM.SelectedProfession)
-//            .background(Color.clear)
-//            .textFieldStyle(PlainTextFieldStyle())
-//            .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.black)
-//          Spacer()
-//        }
-//      }.padding(15)
-//            .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.horizontal,20)
-//
-//
-//      AddText(TextString: "Recommend for you", TextSize: 20,Color: .primary)
-//        .padding(.vertical,10).padding(.horizontal,30)
-
-      ForEach(0..<filteredProfessions.count,id:\.self) { index in
+      AddText(TextString: "What work do you do?", TextSize: 30, FontWeight: .bold)
+        .frame(alignment: .leading)
+            .padding(.horizontal,20)
+      VStack(alignment: .leading, spacing: 8 ) {
+        AddText(TextString: "I work as a", TextSize: 15, Color: .primary, FontWeight: .bold)
         HStack {
-          Text(filteredProfessions[index]).frame(maxWidth: .infinity,alignment:.leading)
-            .background(.blue.opacity(0.00005))
+          TextField("Type here", text: $CreateAccountVM.SelectedProfession)
+            .frame(height: 30)
+            .background(Color.clear)
+            .textFieldStyle(PlainTextFieldStyle())
+            .fontWeight(.regular).font(.custom("Avenir", size: 16))
+            .foregroundColor(Color.black)
           Spacer()
-            if selectedItem == index {
-                Image("ic_checked").frame(width: 25, height: 25, alignment: .center)
-                    .aspectRatio(contentMode: .fill)
-            }else {
-                Image("ic_uncheck").frame(width: 25, height: 25, alignment: .center)
-                    .aspectRatio(contentMode: .fill)
-            }
-        }.onTapGesture {
-          selectedItem = index
-          CreateAccountVM.SelectedProfession = filteredProfessions[index]
-          CreateAccountVM.isSelectedProfession = CreateAccountVM.SelectedProfession
+        }
+      }.padding(15)
+            .background(RoundedRectangle(cornerRadius: 10)
+              .stroke(lineWidth: 2)
+              .foregroundColor(.gray)
+              .opacity(0.2)
+              .frame(height: 80)
+              .background(Color.white)
+              .cornerRadius(10))
+            .padding(.horizontal,20)
+        
 
-        }.listRowSeparator(.hidden)
-          .frame(maxWidth: .infinity,alignment:.leading).padding().background(Color.white).cornerRadius(12)
-      }.padding(.horizontal,20)
+
+     
+
+//      ForEach(0..<filteredProfessions.count,id:\.self) { index in
+//        HStack {
+//          Text(filteredProfessions[index]).frame(maxWidth: .infinity,alignment:.leading)
+//            .background(.blue.opacity(0.00005))
+//          Spacer()
+//            if selectedItem == index {
+//                Image("ic_checked").frame(width: 25, height: 25, alignment: .center)
+//                    .aspectRatio(contentMode: .fill)
+//            }else {
+//                Image("ic_uncheck").frame(width: 25, height: 25, alignment: .center)
+//                    .aspectRatio(contentMode: .fill)
+//            }
+//        }.onTapGesture {
+//          selectedItem = index
+//          CreateAccountVM.SelectedProfession = filteredProfessions[index]
+//          CreateAccountVM.isSelectedProfession = CreateAccountVM.SelectedProfession
+//
+//        }.listRowSeparator(.hidden)
+//          .frame(maxWidth: .infinity,alignment:.leading).padding().background(Color.white).cornerRadius(12)
+//      }.padding(.horizontal,20)
+    }
+  }
+}
+
+struct CustomVStackView: View {
+   var title: String
+  @Binding var text: String
+  
+  
+  init(title: String, text: Binding<String>) {
+    self.title = title
+    self._text = text
+  }
+  
+  
+  var body: some View {
+    VStack(alignment: .leading, spacing: 8 ) {
+      AddText(TextString: title, TextSize: 15, Color: .primary, FontWeight: .bold)
+      HStack {
+        TextField("Type here", text: $text)
+          .frame(height: 30)
+          .background(Color.clear)
+          .textFieldStyle(PlainTextFieldStyle())
+          .fontWeight(.regular).font(.custom("Avenir", size: 16))
+          .foregroundColor(Color.black)
+        Spacer()
+      }
+    }.padding(15)
+          .background(RoundedRectangle(cornerRadius: 10)
+            .stroke(lineWidth: 2)
+            .foregroundColor(.gray)
+            .opacity(0.2)
+            .frame(height: 80)
+            .background(Color.white)
+            .cornerRadius(10))
+          .padding(.horizontal,20)
+  }
+}
+
+
+
+struct StudyQuestionNew: View {
+  @StateObject var CreateAccountVM: QuestionsVM
+
+  var body: some View {
+    ScrollView{
+      AddText(TextString: "What did you study?", TextSize: 30, FontWeight: .bold)
+        .frame(alignment: .leading)
+            .padding(.horizontal,20)
+      
+      CustomVStackView(title: "I studied", text: $CreateAccountVM.studied)
+      CustomVStackView(title: "I studied at", text: $CreateAccountVM.studiedAt)
     }
   }
 }
@@ -361,10 +433,9 @@ struct ThirdQuestionNew: View {
 
 
   var body: some View {
+    ScrollView{
       AddText(TextString: "What’s your ethnicity", TextSize: 30, FontWeight: .bold).frame(alignment: .leading)
             .padding(.horizontal,20)
-    ScrollView{
-      
       ForEach(0..<filteredEthnicGroups.count,id:\.self) { index in
         HStack {
           Text(filteredEthnicGroups[index]).frame(maxWidth: .infinity,alignment:.leading)
@@ -395,25 +466,28 @@ struct FourthQuestionNew: View {
   @Binding var selectedItem: Int?
 
   var filteredEducationLevels: [String] {
-
-    return CreateAccountVM.EducationLevels
+    guard !CreateAccountVM.SelectedEducation.isEmpty else {
+      return CreateAccountVM.EducationLevels
+    }
+    return CreateAccountVM.EducationLevels.filter { $0.localizedCaseInsensitiveContains(CreateAccountVM.SelectedEducation) }
   }
   var body: some View {
+    ScrollView{
       AddText(TextString: "What’s your education level?" ,TextSize: 30, FontWeight: .bold).frame(alignment: .leading)
             .padding(.horizontal,20)
-    ScrollView{
-      
-//      VStack(alignment: .leading, spacing: 8) {
-//        HStack {
-//          Image("Magnifier")
-//          TextField("Search education level", text: $CreateAccountVM.SelectedEducation)
-//            .background(Color.clear)
-//            .textFieldStyle(PlainTextFieldStyle())
-//            .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.black)
-//          Spacer()
-//        }
-//      }.padding(15)
-//            .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.horizontal,20)
+
+
+      VStack(alignment: .leading, spacing: 8) {
+        HStack {
+          Image("Magnifier")
+          TextField("Search education level", text: $CreateAccountVM.SelectedEducation)
+            .background(Color.clear)
+            .textFieldStyle(PlainTextFieldStyle())
+            .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.black)
+          Spacer()
+        }
+      }.padding(15)
+            .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.horizontal,20)
 
 
       ForEach(0..<filteredEducationLevels.count,id:\.self) { index in
@@ -439,150 +513,81 @@ struct FourthQuestionNew: View {
   }
 }
 
-
-
 struct FifthQuestionNew: View {
-  @ObservedObject var locationViewModel = LocationViewModel.shared
   @StateObject var CreateAccountVM: QuestionsVM
   @Binding var selectedItem: Int?
-  @State private var isShowingSettingsAlert = false
-    
+  @State var Country:[CountryData] = []
+
+
   var body: some View {
     ScrollView{
-      AddText(TextString: "Where are you?",TextSize: 30, FontWeight: .bold).frame(alignment: .leading)
+      AddText(TextString: "Enter Address Details",TextSize: 30, FontWeight: .bold).frame(alignment: .leading)
             .padding(.horizontal,20)
 
 
       VStack(alignment: .leading, spacing: 0) {
-          AddText(TextString: "I am in", TextSize: 18, FontWeight: .bold).frame(alignment: .leading)
-              .padding(EdgeInsets(top: 10, leading: 20, bottom: 0, trailing: 20))
-          Text(CreateAccountVM.FullAddress).fontWeight(.heavy).font(.custom("Avenir", size: 18)).foregroundColor(Color.gray)
-              .frame(maxWidth: .infinity,alignment:.leading)
-              .padding(.horizontal,20)
-          Button {
-              if locationViewModel.locationManager.authorizationStatus == .denied {
-                  isShowingSettingsAlert = true
-              }else {
-                  locationViewModel.askLocation()
-              }
-          } label: {
-            HStack{
-              Spacer()
-              Text("Find my location").fontWeight(.bold).foregroundColor(Color.white).font(.custom("Avenir", size: 18))
-              Spacer()
-            }.frame( height: 50, alignment: .center)
-                  .background(RoundedRectangle(cornerRadius: 25)).foregroundStyle(LinearGradient(colors:[  Color.black  ,  Color.black ], startPoint: .leading, endPoint: .trailing)
-              )
-          }.padding(EdgeInsets(top: 15, leading: 20, bottom: 20, trailing: 20))
-      }.background(RoundedRectangle(cornerRadius: 15).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(15)).padding(EdgeInsets(top: 1, leading: 20, bottom: 10, trailing: 20))
+        AddText(TextString: " Street Address", TextSize: 12)
+        TextField("Enter Address", text: $CreateAccountVM.AddressLineOne)
+          .background(Color.clear)
+          .textFieldStyle(PlainTextFieldStyle())
+          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
+          .padding(15) .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
+          //.background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2))
+      }.padding(.horizontal,20)
 
 
-    }
-    .onChange(of: locationViewModel.placemark, { oldValue, newValue in
-        CreateAccountVM.Selectedlatitude = locationViewModel.currentLocation?.coordinate.latitude ?? 0.0
-        CreateAccountVM.Selectedlongitude = locationViewModel.currentLocation?.coordinate.longitude ?? 0.0
-        if let placemark = locationViewModel.placemark {
-            CreateAccountVM.AddressLineOne = placemark.name ?? ""
-            CreateAccountVM.City = placemark.locality ?? ""
-            CreateAccountVM.PostCode = placemark.postalCode ?? ""
-            CreateAccountVM.State = placemark.administrativeArea ?? ""
-            CreateAccountVM.Country = placemark.country ?? ""
-            CreateAccountVM.FullAddress = "\(CreateAccountVM.AddressLineOne), \(CreateAccountVM.City), \(CreateAccountVM.PostCode), \(CreateAccountVM.State), \(CreateAccountVM.Country)"
-        }
-    })
-    .alert(isPresented: $isShowingSettingsAlert) {
-        Alert(
-            title: Text("Location Services Disabled"),
-            message: Text("Please enable location services for this app in Settings."),
-            primaryButton: .default(Text("Settings"), action: {
-                openSettings()
-            }),
-            secondaryButton: .cancel()
-        )
+      VStack(alignment: .leading, spacing: 0) {
+        AddText(TextString: " City", TextSize: 12)
+        TextField("City", text: $CreateAccountVM.City)
+          .background(Color.clear)
+          .textFieldStyle(PlainTextFieldStyle())
+          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
+          .padding(15).background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
+      }.padding(.horizontal,20)
+
+      VStack(alignment: .leading, spacing: 0) {
+        AddText(TextString: " State", TextSize: 12)
+        TextField("State", text: $CreateAccountVM.State)
+          .background(Color.clear)
+          .textFieldStyle(PlainTextFieldStyle())
+          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
+          .padding(15).background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
+      }
+      .padding(.vertical,10)
+      .padding(.horizontal,20)
+
+
+
+      VStack(alignment: .leading, spacing: 0) {
+
+          AddText(TextString: " Country", TextSize: 12)
+
+        TextField("Country", text: $CreateAccountVM.Country)
+          .background(Color.clear)
+          .textFieldStyle(PlainTextFieldStyle())
+          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
+          .padding(15).background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
+
+      }
+      .padding(.horizontal,20)
+
+
+      VStack(alignment: .leading, spacing: 0) {
+        AddText(TextString: " Post Code", TextSize: 12)
+        TextField("10005", text: $CreateAccountVM.PostCode)
+          .background(Color.clear)
+          .textFieldStyle(PlainTextFieldStyle())
+          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
+          .padding(15).background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
+      }.padding(.horizontal,20)
+    }.onAppear{
+
+      DispatchQueue.main.async {
+        Country = CreateAccountVM.getCountries() ?? []
+      }
     }
   }
-    
-    func openSettings() {
-            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(settingsURL)
-            }
-        }
 }
-//struct FifthQuestionNew: View {
-//  @StateObject var CreateAccountVM: QuestionsVM
-//  @Binding var selectedItem: Int?
-//  @State var Country:[CountryData] = []
-//
-//
-//  var body: some View {
-//    ScrollView{
-//      AddText(TextString: "Enter Address Details",TextSize: 30, FontWeight: .bold).frame(alignment: .leading)
-//            .padding(.horizontal,20)
-//
-//
-//      VStack(alignment: .leading, spacing: 0) {
-//        AddText(TextString: " Street Address", TextSize: 12)
-//        TextField("Enter Address", text: $CreateAccountVM.AddressLineOne)
-//          .background(Color.clear)
-//          .textFieldStyle(PlainTextFieldStyle())
-//          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
-//          .padding(15) .background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
-//          //.background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2))
-//      }.padding(.horizontal,20)
-//
-//
-//      VStack(alignment: .leading, spacing: 0) {
-//        AddText(TextString: " City", TextSize: 12)
-//        TextField("City", text: $CreateAccountVM.City)
-//          .background(Color.clear)
-//          .textFieldStyle(PlainTextFieldStyle())
-//          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
-//          .padding(15).background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
-//      }.padding(.horizontal,20)
-//
-//      VStack(alignment: .leading, spacing: 0) {
-//        AddText(TextString: " State", TextSize: 12)
-//        TextField("State", text: $CreateAccountVM.State)
-//          .background(Color.clear)
-//          .textFieldStyle(PlainTextFieldStyle())
-//          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
-//          .padding(15).background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
-//      }
-//      .padding(.vertical,10)
-//      .padding(.horizontal,20)
-//
-//
-//
-//      VStack(alignment: .leading, spacing: 0) {
-//
-//          AddText(TextString: " Country", TextSize: 12)
-//
-//        TextField("Country", text: $CreateAccountVM.Country)
-//          .background(Color.clear)
-//          .textFieldStyle(PlainTextFieldStyle())
-//          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
-//          .padding(15).background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
-//
-//      }
-//      .padding(.horizontal,20)
-//
-//
-//      VStack(alignment: .leading, spacing: 0) {
-//        AddText(TextString: " Post Code", TextSize: 12)
-//        TextField("10005", text: $CreateAccountVM.PostCode)
-//          .background(Color.clear)
-//          .textFieldStyle(PlainTextFieldStyle())
-//          .fontWeight(.regular).font(.custom("Avenir", size: 16)).foregroundColor(Color.primary)
-//          .padding(15).background(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(.gray).opacity(0.2).background(Color.white).cornerRadius(10)).padding(.top,2)
-//      }.padding(.horizontal,20)
-//    }.onAppear{
-//
-//      DispatchQueue.main.async {
-//        Country = CreateAccountVM.getCountries() ?? []
-//      }
-//    }
-//  }
-//}
 
 struct SixthQuestionNew: View {
   @State var CreateAccountVM: QuestionsVM
