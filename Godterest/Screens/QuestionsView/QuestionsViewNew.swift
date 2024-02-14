@@ -159,7 +159,7 @@ struct QuestionsViewNew: View {
             }
       }
 
-      if selectedQuestion == 13{
+      if selectedQuestion == 14{
 
         HStack{
           Spacer()
@@ -205,42 +205,39 @@ struct QuestionsViewNew: View {
       .background(Color("App Background"))
   }
 
-  func shouldDisableNextButton() -> Bool {
-    if selectedQuestion == 1 && CreateAccountVM.SelectedDenomination.isEmpty   {
-      print("here")
-      return true
-    } else if selectedQuestion == 2 && CreateAccountVM.SelectedProfession.isEmpty  {
-      return true
-    } else if selectedQuestion == 3 && (CreateAccountVM.studied.isEmpty || CreateAccountVM.studiedAt.isEmpty)  {
-      return true
-    }else if selectedQuestion == 4 && CreateAccountVM.SelectedEthnic.isEmpty || CreateAccountVM.SelectedEthnic != CreateAccountVM.isSelectedEthnic {
-      return true
-    }else if selectedQuestion == 5 && CreateAccountVM.SelectedEducation.isEmpty || CreateAccountVM.SelectedEducation != CreateAccountVM.isSelectedEducation {
-      return true
-    }else if (selectedQuestion == 6 &&  CreateAccountVM.PostCode.isEmpty) || (selectedQuestion == 6 && CreateAccountVM.City.isEmpty)  || (selectedQuestion == 6 && CreateAccountVM.Country.isEmpty) || (selectedQuestion == 6 && CreateAccountVM.State.isEmpty) {
-      print(selectedQuestion)
-      print(CreateAccountVM.PostCode)
-      print(CreateAccountVM.City)
-      return true
-    }else if selectedQuestion == 7 && CreateAccountVM.SelectedHeight.isEmpty  {
-      return true
-    }else if selectedQuestion == 8 && CreateAccountVM.SelectedMaritalStatues.isEmpty {
-      return true
-    }else if selectedQuestion == 9 && CreateAccountVM.SelectedSmokeHabit.isEmpty  {
-      return true
-    }else if selectedQuestion == 10 && CreateAccountVM.SelectedDrinkHabit.isEmpty  {
-      return true
-    }else if selectedQuestion == 11 && CreateAccountVM.SelectedHaveChildren.isEmpty {
-      return true
-    }else if selectedQuestion == 12 && CreateAccountVM.SelectedWantChildren.isEmpty {
-      return true
-    }else if selectedQuestion == 13 && CreateAccountVM.SelectedChurchCommunity.isEmpty {
-        return true
-    }else if selectedQuestion == 14 && CreateAccountVM.Bio.isEmpty {
-      return true
+    func shouldDisableNextButton() -> Bool {
+        if selectedQuestion == 1 && CreateAccountVM.SelectedDenomination.isEmpty   {
+            print("here")
+            return true
+        } else if selectedQuestion == 2 && CreateAccountVM.SelectedProfession.isEmpty  {
+            return true
+        } else if selectedQuestion == 3 && (CreateAccountVM.studied.isEmpty || CreateAccountVM.studiedAt.isEmpty)  {
+            return true
+        }else if selectedQuestion == 4 && CreateAccountVM.SelectedEthnic.isEmpty || CreateAccountVM.SelectedEthnic != CreateAccountVM.isSelectedEthnic {
+            return true
+        }else if selectedQuestion == 5 && CreateAccountVM.SelectedEducation.isEmpty || CreateAccountVM.SelectedEducation != CreateAccountVM.isSelectedEducation {
+            return true
+        }else if (selectedQuestion == 6 &&  CreateAccountVM.Selectedlatitude == 0.0) || (selectedQuestion == 6 && CreateAccountVM.Selectedlongitude == 0.0) {
+            return true
+        }else if selectedQuestion == 7 && CreateAccountVM.SelectedHeight.isEmpty  {
+            return true
+        }else if selectedQuestion == 8 && CreateAccountVM.SelectedMaritalStatues.isEmpty {
+            return true
+        }else if selectedQuestion == 9 && CreateAccountVM.SelectedSmokeHabit.isEmpty  {
+            return true
+        }else if selectedQuestion == 10 && CreateAccountVM.SelectedDrinkHabit.isEmpty  {
+            return true
+        }else if selectedQuestion == 11 && CreateAccountVM.SelectedHaveChildren.isEmpty {
+            return true
+        }else if selectedQuestion == 12 && CreateAccountVM.SelectedWantChildren.isEmpty {
+            return true
+        }else if selectedQuestion == 13 && CreateAccountVM.SelectedChurchCommunity.isEmpty {
+            return true
+        }else if selectedQuestion == 14 && CreateAccountVM.Bio.isEmpty {
+            return true
+        }
+        return false
     }
-    return false
-  }
 
 
   func nextQuestion(){
@@ -248,7 +245,7 @@ struct QuestionsViewNew: View {
     selectedItem = nil
     Gonext = true
 
-    if selectedQuestion<=12{
+    if selectedQuestion<=13{
       selectedQuestion += 1
     }
     isAnimating = false

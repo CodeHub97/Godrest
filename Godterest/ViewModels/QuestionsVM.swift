@@ -129,9 +129,9 @@ class QuestionsVM : ObservableObject{
     @Published var isSelectedHeight : String = ""
     @Published var SelectedSmokeHabit = ""
     @Published var isSelectedSmokeHabit : String = ""
-    @Published var Selectedlatitude = 30.45
+    @Published var Selectedlatitude = 0.0
     @Published var isSelectedlatitude : String = ""
-    @Published var Selectedlongitude = 70.56
+    @Published var Selectedlongitude = 0.0
     @Published var isSelectedlongitude : String = ""
     @Published var SelectedDrinkHabit = ""
     @Published var isSelectedDrinkHabit : String = ""
