@@ -19,17 +19,19 @@ struct UserSignupDataClass: Codable {
     let descriptions: String?
     let denomination: String?
     let password, children: String?
-    let tall, email, profession, alcohol: String?
+  let tall, profession, alcohol: String? //let tall, email, profession, alcohol: String?
     let address: Address
     let profilePic: String?
     let smoke: String?
     let otherPic: String?
     let hobbies: String?
     let dob, name, ethnicGroup, maritalStatus: String?
+  let phoneNumber: String?
 
     enum CodingKeys: String, CodingKey {
         case childrenInFuture, education, gender, descriptions, denomination
-        case password, children, tall, email, profession, alcohol, address, profilePic, smoke, otherPic, hobbies, dob, name, ethnicGroup, maritalStatus
+        case password, children, tall, profession, alcohol, address, profilePic, smoke, otherPic, hobbies, dob, name, ethnicGroup, maritalStatus
+      case phoneNumber
     }
 }
 

@@ -344,7 +344,7 @@ class QuestionsVM : ObservableObject{
                     password: self.Password,
                     children: self.SelectedHaveChildren,
                     tall: self.SelectedHeight,
-                    email: self.Email,
+                    //email: self.Email,
                     profession: self.SelectedProfession,
                     alcohol: self.SelectedDrinkHabit,
                     address: Address(
@@ -366,7 +366,8 @@ class QuestionsVM : ObservableObject{
                     dob: self.formattedDateOfBirth,
                     name: self.Name,
                     ethnicGroup: self.SelectedEthnic,
-                    maritalStatus: self.SelectedMaritalStatues
+                    maritalStatus: self.SelectedMaritalStatues,
+                    phoneNumber: self.mobileNumber
                 )
                 
                 print(userProfile)

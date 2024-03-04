@@ -65,7 +65,7 @@ struct Matched: View {
           Spacer()
         }.padding(.horizontal)
 
-        if MatchedViewModel.allMatchedProfiles.isEmpty{
+        if MatchedViewModel.allMatchedProfiles.isEmpty {
             VStack{
                 Spacer()
                 Image("img_noMatches")
