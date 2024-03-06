@@ -314,6 +314,7 @@ class QuestionsVM : ObservableObject{
       self.studiedAt = ""
       self.mobileNumber = ""
       self.countryCode = ""
+      self.Password = ""
     }
     
     func HitCreateAccount() {

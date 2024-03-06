@@ -156,6 +156,18 @@ struct NumberVerificationView: View {
                             .presentationDetents([.medium, .large])
                         }
                         .presentationDetents([.medium, .large])
+                      
+                      HStack {
+                        
+                        TextField("Password", text: $CreateAccountVM.Password)
+                          .onChange(of: CreateAccountVM.Password) { oldValue, newValue in
+                              print("Changing from \(oldValue) to \(newValue)")
+                          }
+                          .font(.custom("Avenir", size: 16))
+                              .keyboardType(.numberPad)
+                      }.padding().frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
+                          .foregroundColor(.white))
+                      
                         
                         .padding(0).frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.white))
