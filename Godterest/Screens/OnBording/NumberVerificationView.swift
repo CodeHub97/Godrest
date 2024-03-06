@@ -6,12 +6,62 @@
 //
 
 import SwiftUI
-import iPhoneNumberField
+import Combine
+
+struct CPData: Codable, Identifiable {
+    let id: String
+    let name: String
+    let flag: String
+    let code: String
+    let dial_code: String
+    let pattern: String
+    let limit: Int
+    
+    static let allCountry: [CPData] = Bundle.main.decode("CountryNumbers.json")
+    static let example = allCountry[0]
+}
+
+extension Bundle {
+    func decode<T: Decodable>(_ file: String) -> T {
+        guard let url = self.url(forResource: file, withExtension: nil) else {
+            fatalError("Failed to locate \(file) in bundle.")
+        }
+
+        guard let data = try? Data(contentsOf: url) else {
+            fatalError("Failed to load \(file) from bundle.")
+        }
+
+        let decoder = JSONDecoder()
+
+        guard let loaded = try? decoder.decode(T.self, from: data) else {
+            fatalError("Failed to decode \(file) from bundle.")
+        }
+
+        return loaded
+    }
+}
+
+
 
 struct NumberVerificationView: View {
     @EnvironmentObject var CreateAccountVM : QuestionsVM
   @State private var text: String = ""
     @FocusState private var isFocused: Bool
+  
+  
+  //Textfield
+  @State var presentSheet = false
+  @State var countryCode : String = "+1"
+  @State var countryFlag : String = "🇺🇸"
+  @State var countryPattern : String = "### ### ####"
+  @State var countryLimit : Int = 17
+  @State var mobPhoneNumber = ""
+  @State private var searchCountry: String = ""
+ 
+  @FocusState private var keyIsFocused: Bool
+  
+  let counrties: [CPData] = Bundle.main.decode("CountryNumbers.json")
+  
     var body: some View {
        
         VStack{
@@ -27,29 +77,89 @@ struct NumberVerificationView: View {
                             .font(.custom("Avenir", size: 22))
                         HStack {
                           
-                          iPhoneNumberField( text: $CreateAccountVM.mobileNumber, formatted: true)
-                            .clearButtonMode(.whileEditing)
-                            .flagHidden(false)
-                            .flagSelectable(true)
-                            .prefixHidden(false)
-                            .focused($isFocused)
-                            .onChange(of: CreateAccountVM.mobileNumber) { oldValue, newValue in
-                                print("Changing from \(oldValue) to \(newValue)")
-                            }
-                            .font(.custom("Avenir", size: 16))
-                            .frame(height: 60)
-                            .keyboardType(.numberPad)
                           
-//                          TextField("Enter number", text: $CreateAccountVM.mobileNumber.max(10))
+                          Button {
+                              presentSheet = true
+                              keyIsFocused = false
+                          } label: {
+                              Text("\(countryFlag) \(countryCode)")
+                                  .padding(0)
+                                  .frame(minWidth: 70, minHeight: 60)
+                                  .background(Color.white, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                  .foregroundColor(Color.black)
+                          }.background(Color.white)
+                          
+                          TextField("", text: $CreateAccountVM.mobileNumber)
+                              .placeholder(when: CreateAccountVM.mobileNumber.isEmpty) {
+                                  Text("Phone number")
+                                      .foregroundColor(.secondary)
+                              }
+                              .focused($keyIsFocused)
+                              .keyboardType(.numbersAndPunctuation)
+                              .onReceive(Just($CreateAccountVM.mobileNumber)) { _ in
+                                  applyPatternOnNumbers(&mobPhoneNumber, pattern: countryPattern, replacementCharacter: "#")
+                              }
+                              .padding(0)
+                              .frame(minWidth: 80, minHeight: 60)
+                              .background(Color.white, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                          
+                          
+//                          iPhoneNumberField( text: $CreateAccountVM.mobileNumber, formatted: true)
+//                            .clearButtonMode(.whileEditing)
+//                            .flagHidden(false)
+//                            .flagSelectable(true)
+//                            .prefixHidden(false)
+//                            .focused($isFocused)
 //                            .onChange(of: CreateAccountVM.mobileNumber) { oldValue, newValue in
 //                                print("Changing from \(oldValue) to \(newValue)")
 //                            }
 //                            .font(.custom("Avenir", size: 16))
 //                            .frame(height: 60)
 //                            .keyboardType(.numberPad)
-                        }.padding().frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
+//                          
+////                          TextField("Enter number", text: $CreateAccountVM.mobileNumber.max(10))
+////                            .onChange(of: CreateAccountVM.mobileNumber) { oldValue, newValue in
+////                                print("Changing from \(oldValue) to \(newValue)")
+////                            }
+////                            .font(.custom("Avenir", size: 16))
+////                            .frame(height: 60)
+////                            .keyboardType(.numberPad)
+                        }.background(Color.white)
+                        .cornerRadius(10)
+                        .onTapGesture {
+                            hideKeyboard()
+                        }
+                        .sheet(isPresented: $presentSheet) {
+                            NavigationView {
+                                List(filteredResorts) { country in
+                                    HStack {
+                                        Text(country.flag)
+                                        Text(country.name)
+                                            .font(.headline)
+                                        Spacer()
+                                        Text(country.dial_code)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    .onTapGesture {
+                                        self.countryFlag = country.flag
+                                        self.countryCode = country.dial_code
+                                        self.countryPattern = country.pattern
+                                        self.countryLimit = country.limit
+                                        presentSheet = false
+                                        searchCountry = ""
+                                      CreateAccountVM.countryCode = country.dial_code
+                                    }
+                                }
+                                .listStyle(.plain)
+                                .searchable(text: $searchCountry, prompt: "Your country")
+                            }
+                            .presentationDetents([.medium, .large])
+                        }
+                        .presentationDetents([.medium, .large])
+                        
+                        .padding(0).frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.white))
-                        Spacer()
+                        //Spacer()
                     }.padding(.horizontal ,20)
                 }.padding(0)
             }
@@ -58,8 +168,19 @@ struct NumberVerificationView: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.gray)
                 .padding(-10)
-            CustomButton(ButtonTitle: "Verify", ButtonType: .mobileNumber ,View: AnyView(VerifyView()), fontSize: 22).cornerRadius(30).padding(.all)
-            Spacer()
+          
+          //CustomButton2(ButtonType:, action: <#T##() -> Void#>)
+          
+          CustomButton3(ButtonTitle: "Verify", ButtonType: .mobileNumber) {
+            
+            CreateAccountVM.HitGenerateOtp()
+//            
+//            VerifyView()
+          }.cornerRadius(30).padding(.all)
+          Spacer()
+          
+//            CustomButton(ButtonTitle: "Verify", ButtonType: .mobileNumber ,View: AnyView(VerifyView()), fontSize: 22).cornerRadius(30).padding(.all)
+//
             
         }.navigationBarBackButtonHidden()
         .background( Color(Color("App Background")))
@@ -74,6 +195,73 @@ struct NumberVerificationView: View {
     
   //  VerifyView().environmentObject(QuestionsVM())
 }
+
+extension NumberVerificationView {
+  
+  var filteredResorts: [CPData] {
+      if searchCountry.isEmpty {
+          return counrties
+      } else {
+          return counrties.filter { $0.name.contains(searchCountry) }
+      }
+  }
+  
+  func applyPatternOnNumbers(_ stringvar: inout String, pattern: String, replacementCharacter: Character) {
+      var pureNumber = stringvar.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
+      for index in 0 ..< pattern.count {
+          guard index < pureNumber.count else {
+              stringvar = pureNumber
+              return
+          }
+          let stringIndex = String.Index(utf16Offset: index, in: pattern)
+          let patternCharacter = pattern[stringIndex]
+          guard patternCharacter != replacementCharacter else { continue }
+          pureNumber.insert(patternCharacter, at: stringIndex)
+      }
+      stringvar = pureNumber
+  }
+}
+extension View {
+    func placeholder<Content: View>(
+        when shouldShow: Bool,
+        alignment: Alignment = .leading,
+        @ViewBuilder placeholder: () -> Content) -> some View {
+            
+            ZStack(alignment: alignment) {
+                placeholder().opacity(shouldShow ? 1 : 0)
+                self
+            }
+        }
+}
+extension View {
+    func hideKeyboard() {
+        let resign = #selector(UIResponder.resignFirstResponder)
+        UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
+    }
+}
+extension View {
+    func disableWithOpacity(_ condition: Bool) -> some View {
+        self
+            .disabled(condition)
+            .opacity(condition ? 0.6 : 1)
+    }
+}
+struct OnboardingButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        
+        ZStack {
+            RoundedRectangle(cornerRadius: 10, style: .continuous )
+                .frame(height: 49)
+                .foregroundColor(Color(.systemBlue))
+            
+            configuration.label
+                .fontWeight(.semibold)
+                .foregroundColor(Color(.white))
+        }
+    }
+}
+
+
 
 
 struct VerifyView: View {

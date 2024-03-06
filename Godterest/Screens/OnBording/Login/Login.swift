@@ -116,7 +116,7 @@ struct CustomButton: View {
     @State var View = AnyView(NameView())
     @State var fontSize: Int = 18
     @EnvironmentObject var CreateAccountVM: QuestionsVM
-    
+   
     private var isDisabled: Bool {
         switch ButtonType {
         case .Email:
@@ -148,6 +148,7 @@ struct CustomButton: View {
     var body: some View {
         NavigationLink {
             View.navigationBarBackButtonHidden()
+          
         } label: {
             HStack{
                 Spacer()
@@ -161,6 +162,67 @@ struct CustomButton: View {
         
     }
 }
+
+struct CustomButton3: View {
+  
+  @State var ButtonTitle:String
+  @State var ButtonType:ButtonTypes
+  @State var fontSize: Int = 18
+  @EnvironmentObject var CreateAccountVM: QuestionsVM
+ 
+  private var isDisabled: Bool {
+      switch ButtonType {
+      case .Email:
+          return !Validation.isEmailValid(CreateAccountVM.Email) || !Validation.isPasswordValid(CreateAccountVM.Password) || CreateAccountVM.Password != CreateAccountVM.ConfirmPassword
+      case .Name:
+          return CreateAccountVM.Name.isEmpty
+      case .dateofBirth:
+          let dateFormatter = DateFormatter()
+          dateFormatter.dateFormat = "yyyy-MM-dd"
+          
+          let dateComponents = Calendar.current.dateComponents([.year], from: CreateAccountVM.dateofBirth, to: Date())
+          
+          return dateComponents.year ?? 0 < 18
+      case .ProfilePic:
+          return CreateAccountVM.SelectedProfileUIImage.size == .zero
+      case .OtherPics:
+          return CreateAccountVM.images == nil || CreateAccountVM.images.isEmpty
+      case .Hobbies:
+          return CreateAccountVM.selectedHobbiesArray.count < 4
+      case .mobileNumber:
+        return CreateAccountVM.mobileNumber.count < 10
+      case .otp:
+          return CreateAccountVM.otp.count < 4
+      default:
+          return false
+      }
+  }
+  
+
+  var action:() -> Void
+  var body: some View {
+    Button {
+      action()
+    } label: {
+      HStack{
+        Spacer()
+        Text(ButtonTitle)
+          .fontWeight(.medium)
+          .foregroundColor(Color.white)
+          .font(.custom("Avenir", size: CGFloat(fontSize)))
+       
+        Spacer()
+      }.frame( height: 60, alignment: .center)
+        .background(RoundedRectangle(cornerRadius: 10)).foregroundStyle(LinearGradient(colors: [ !(isDisabled ?? false) ? Color("App Red"): Color.gray , !(isDisabled ?? false) ? Color("App Yellow")  : Color.gray
+                                                                                               ], startPoint: .leading, endPoint: .trailing)
+        )
+    }
+  }
+}
+
+
+
+
 
 struct CustomButton2: View {
   @State var ButtonType:String

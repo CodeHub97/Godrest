@@ -171,6 +171,7 @@ class QuestionsVM : ObservableObject{
     @Published var SelectedChurchCommunity : String = ""
     
     @Published var mobileNumber: String = ""
+    @Published var countryCode: String = ""
     @Published var otp: String = ""
     
     var formattedDateOfBirth: String {
@@ -206,8 +207,6 @@ class QuestionsVM : ObservableObject{
         let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
         return emailPredicate.evaluate(with: email)
     }
-    
-    
     
     func uploadProfileImage(completion: @escaping (String?) -> Void) {
         let image = SelectedProfileUIImage
@@ -313,6 +312,8 @@ class QuestionsVM : ObservableObject{
       
       self.studied = ""
       self.studiedAt = ""
+      self.mobileNumber = ""
+      self.countryCode = ""
     }
     
     func HitCreateAccount() {
@@ -442,6 +443,88 @@ class QuestionsVM : ObservableObject{
             }
         }
     }
+  
+  
+  func HitGenerateOtp() {
+    
+    let url = "\(MatchedVM.BaseURL)/user/user-profiles"
+    let parameters = GenerateOtp(password: "343535", phoneNumber: self.mobileNumber, countryCode: self.countryCode)
+    print(url)
+    print(parameters)
+    
+    do {
+      let encoder = JSONEncoder()
+      encoder.outputFormatting = .prettyPrinted
+      let jsonData = try encoder.encode(parameters)
+      if let jsonString = String(data: jsonData, encoding: .utf8) {
+        print("Create Account Json Made :",jsonString)
+      }
+    } catch {
+      print("Error encoding user profile: \(error)")
+    }
+    
+    AF.request(url,
+               method: .post,
+               parameters: parameters,
+               encoder: JSONParameterEncoder.default).response { response in
+      // Handle the response here
+      
+      if let error = response.error {
+        print("Error: \(error.localizedDescription)")
+        self.errorMessage = "Could not Connect to the Server!!!"
+        self.showToast = true
+        self.SignupapiLoaded = true
+        self.ErrorType = .SignupAPI
+        return
+      }
+      
+      if let data = response.data {
+        do {
+          let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+          
+          if let status = json?["status"] as? String, status == "success" {
+            if let loginData = try? JSONDecoder().decode(LoginDataModel.self, from: data) {
+              UserSettings.shared.saveLoginData(loginData)
+              
+              if let savedLoginData = UserSettings.shared.getLoginData() {
+                print(savedLoginData)
+                self.SignupapiCompleted = true
+                self.SignupapiLoaded = true
+                self.clearallfields()
+              }
+            } else {
+              print("Error decoding login data.")
+              self.SignupapiLoaded = true
+            }
+          } else {
+            // Handle error here, if needed
+            if let reason = json?["reason"] as? String {
+              self.errorMessage = reason
+              self.showToast = true
+              self.SignupapiLoaded = true
+              self.ErrorType = .SignupAPI
+              print("Login failed. Reason: \(reason)")
+            } else {
+              print("Login failed. Unknown reason.")
+              self.showToast = true
+              self.SignupapiLoaded = true
+              self.errorMessage = json?["message"] as? String ?? ""
+              print(json)
+              self.ErrorType = .SignupAPI
+            }
+          }
+        } catch {
+          self.SignupapiLoaded = true
+          print("Error decoding data: \(error)")
+        }
+      } else {
+        self.SignupapiLoaded = true
+        print("API Failed hitSignIN")
+      }
+    }
+  }
+     
+  
     
     
 //    func HitEditProfile() {

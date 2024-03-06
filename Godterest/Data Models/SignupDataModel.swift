@@ -15,24 +15,30 @@ struct UserSignup: Codable {
 
 // MARK: - DataClass
 struct UserSignupDataClass: Codable {
-    let childrenInFuture, education, gender: String?
-    let descriptions: String?
-    let denomination: String?
-    let password, children: String?
+  let childrenInFuture, education, gender: String?
+  let descriptions: String?
+  let denomination: String?
+  let password, children: String?
   let tall, profession, alcohol: String? //let tall, email, profession, alcohol: String?
-    let address: Address
-    let profilePic: String?
-    let smoke: String?
-    let otherPic: String?
-    let hobbies: String?
-    let dob, name, ethnicGroup, maritalStatus: String?
+  let address: Address
+  let profilePic: String?
+  let smoke: String?
+  let otherPic: String?
+  let hobbies: String?
+  let dob, name, ethnicGroup, maritalStatus: String?
   let phoneNumber: String?
+  
+  enum CodingKeys: String, CodingKey {
+    case childrenInFuture, education, gender, descriptions, denomination
+    case password, children, tall, profession, alcohol, address, profilePic, smoke, otherPic, hobbies, dob, name, ethnicGroup, maritalStatus
+    case phoneNumber
+  }
+}
 
-    enum CodingKeys: String, CodingKey {
-        case childrenInFuture, education, gender, descriptions, denomination
-        case password, children, tall, profession, alcohol, address, profilePic, smoke, otherPic, hobbies, dob, name, ethnicGroup, maritalStatus
-      case phoneNumber
-    }
+struct GenerateOtp: Codable {
+  var password: String = ""
+  var phoneNumber: String = ""
+  var countryCode: String = ""
 }
 
 // MARK: - Address

@@ -12,8 +12,8 @@ struct DonationVC: View {
         VStack {
             ZStack {
                 NavigationLink {
-                    Login()
-                  //LandingView()
+                   // Login()
+                  LandingView()
                   
                   //  QuestionsViewNew()
                  
