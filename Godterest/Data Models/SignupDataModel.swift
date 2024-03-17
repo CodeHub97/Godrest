@@ -27,11 +27,13 @@ struct UserSignupDataClass: Codable {
   let hobbies: String?
   let dob, name, ethnicGroup, maritalStatus: String?
   let phoneNumber: String?
+    let countryCode: String?
   
   enum CodingKeys: String, CodingKey {
     case childrenInFuture, education, gender, descriptions, denomination
     case password, children, tall, profession, alcohol, address, profilePic, smoke, otherPic, hobbies, dob, name, ethnicGroup, maritalStatus
     case phoneNumber
+      case countryCode
   }
 }
 

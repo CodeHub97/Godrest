@@ -192,7 +192,7 @@ struct CustomButton3: View {
       case .mobileNumber:
         return CreateAccountVM.mobileNumber.count < 10
       case .otp:
-          return CreateAccountVM.otp.count < 4
+          return CreateAccountVM.otp.count < 6
       default:
           return false
       }

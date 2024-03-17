@@ -215,10 +215,13 @@ struct NameView:View{
                 VStack(alignment: .center,spacing: 20 ) {
 //                    Image("Name Select").resizable().frame(width: 180, height: 150, alignment: .center)
                     VStack(alignment: .leading,spacing: 20 ) {
-                        Text("What’s your name?").fontWeight(.heavy).foregroundColor(Color.primary).font(.custom("Avenir", size: 20))
+                        Text("What’s your name?").fontWeight(.heavy)
+                            .foregroundColor(.black).font(.custom("Avenir", size: 20))
                         HStack {
                            // Image("User").font(.custom("Avenir", size: 16))
-                            TextField("John Doe", text: $CreateAccountVM.Name).font(.custom("Avenir", size: 16))
+                            TextField("John Doe", text: $CreateAccountVM.Name)
+                                .font(.custom("Avenir", size: 16))
+                                .foregroundColor(.black)
                         }.padding().frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
                             
                             .foregroundColor(.white))
@@ -237,7 +240,7 @@ struct NameView:View{
                 .multilineTextAlignment(.center)
                 .foregroundColor(.gray)
                 .padding(-10)
-            CustomButton(ButtonTitle: "Create account", ButtonType: .Name ,View: AnyView(GenderSelectionView()), fontSize: 22).cornerRadius(30).padding(.all)
+            CustomButton(ButtonTitle: "Update", ButtonType: .Name ,View: AnyView(GenderSelectionView()), fontSize: 22).cornerRadius(30).padding(.all)
             Spacer()
             
         }.background( Color(Color("App Background")))

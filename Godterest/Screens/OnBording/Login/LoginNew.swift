@@ -40,7 +40,7 @@ struct LoginNew: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.gray)
                 .padding(-10)
-            CustomButton(ButtonTitle: "Login", ButtonType: .mobileNumber ,View: AnyView(VerifyView()), fontSize: 22).cornerRadius(30).padding(.all)
+            CustomButton(ButtonTitle: "Login", ButtonType: .mobileNumber ,View: AnyView(VerifyView(userId: 34)), fontSize: 22).cornerRadius(30).padding(.all)
             Spacer()
             
         }.navigationBarBackButtonHidden()

@@ -19,6 +19,7 @@
 		92F6A2CB2AC6AC350050D143 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F6A2C92AC6AC350050D143 /* APIConstants.swift */; };
 		92F6A2CC2AC6AC350050D143 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F6A2CA2AC6AC350050D143 /* APIKeys.swift */; };
 		BF4AA2B92B56E8A80033F656 /* DateViewNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4AA2B82B56E8A80033F656 /* DateViewNew.swift */; };
+		CECD41BE2B98CDE9003CAAEF /* CountryNumbers.json in Resources */ = {isa = PBXBuildFile; fileRef = CECD41BD2B98CDE9003CAAEF /* CountryNumbers.json */; };
 		CED579912B6024B400801CF5 /* NumberVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED5798F2B6024B400801CF5 /* NumberVerificationView.swift */; };
 		CED579922B6024B400801CF5 /* GenderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED579902B6024B400801CF5 /* GenderSelectionView.swift */; };
 		CED6D8BE2B5E78080023029F /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED6D8BB2B5E78080023029F /* LandingView.swift */; };
@@ -77,9 +78,11 @@
 		B596D1750013C64C9BF63654 /* Pods-Godterest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Godterest.release.xcconfig"; path = "Target Support Files/Pods-Godterest/Pods-Godterest.release.xcconfig"; sourceTree = "<group>"; };
 		BF4AA2B82B56E8A80033F656 /* DateViewNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewNew.swift; sourceTree = "<group>"; };
 		C184FD8ABB879F4D60DDE014 /* Pods_Godterest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Godterest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CECD41BD2B98CDE9003CAAEF /* CountryNumbers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CountryNumbers.json; sourceTree = "<group>"; };
 		CED5798F2B6024B400801CF5 /* NumberVerificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberVerificationView.swift; sourceTree = "<group>"; };
 		CED579902B6024B400801CF5 /* GenderSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderSelectionView.swift; sourceTree = "<group>"; };
 		CED6D8BB2B5E78080023029F /* LandingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
+		CED8691E2BA5CB2D00EF57F4 /* Godterest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Godterest.entitlements; sourceTree = "<group>"; };
 		F7A1ABD281EDB8C1C63947E5 /* Pods-Godterest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Godterest.debug.xcconfig"; path = "Target Support Files/Pods-Godterest/Pods-Godterest.debug.xcconfig"; sourceTree = "<group>"; };
 		FB0A0ADD2AB86506001C23C2 /* LocationFeatures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFeatures.swift; sourceTree = "<group>"; };
 		FB0A0ADF2AB86544001C23C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -178,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				CED579902B6024B400801CF5 /* GenderSelectionView.swift */,
+				CECD41BD2B98CDE9003CAAEF /* CountryNumbers.json */,
 				CED5798F2B6024B400801CF5 /* NumberVerificationView.swift */,
 				CED6D8BB2B5E78080023029F /* LandingView.swift */,
 				FBF957F32AAADB5900B6D945 /* Signup */,
@@ -418,6 +422,7 @@
 		FBF957E22AAADAE100B6D945 /* Godterest */ = {
 			isa = PBXGroup;
 			children = (
+				CED8691E2BA5CB2D00EF57F4 /* Godterest.entitlements */,
 				92F6A2C82AC6AC2A0050D143 /* AppConstants */,
 				92F6A2C32AC697100050D143 /* AppManagers */,
 				FB6CA8E32AC3571A00D853E4 /* Data Models */,
@@ -557,6 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB7705592AAF6694001C1F01 /* Launch Screen.storyboard in Resources */,
+				CECD41BE2B98CDE9003CAAEF /* CountryNumbers.json in Resources */,
 				FB9064042AB716C0002C6E41 /* Assets.xcassets in Resources */,
 				FBF957EB2AAADAE200B6D945 /* Preview Assets.xcassets in Resources */,
 				FB1621DA2ABA195E00E209A5 /* Grandista Regular.otf in Resources */,
@@ -788,11 +794,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Godterest/Godterest.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Godterest/Preview Content\"";
-				DEVELOPMENT_TEAM = F63GGXTV46;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = TWML9NCY32;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Godterest/Info.plist;
@@ -813,9 +822,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.godterest.Godterest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.offsure.rnd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = rnd_provisioning_profile;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -832,11 +842,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Godterest/Godterest.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Godterest/Preview Content\"";
-				DEVELOPMENT_TEAM = F63GGXTV46;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = TWML9NCY32;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Godterest/Info.plist;
@@ -857,9 +870,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.godterest.Godterest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.offsure.rnd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = rnd_provisioning_profile;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

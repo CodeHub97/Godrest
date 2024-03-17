@@ -47,16 +47,17 @@ struct NumberVerificationView: View {
     @EnvironmentObject var CreateAccountVM : QuestionsVM
   @State private var text: String = ""
     @FocusState private var isFocused: Bool
-  
+  @State private var moveToNext = false
   
   //Textfield
   @State var presentSheet = false
-  @State var countryCode : String = "+1"
-  @State var countryFlag : String = "🇺🇸"
+  @State var countryCode : String = "+91"
+  @State var countryFlag : String = "🇮🇳"
   @State var countryPattern : String = "### ### ####"
   @State var countryLimit : Int = 17
   @State var mobPhoneNumber = ""
   @State private var searchCountry: String = ""
+   @State private var userId: Int = 0
  
   @FocusState private var keyIsFocused: Bool
   
@@ -102,6 +103,7 @@ struct NumberVerificationView: View {
                               .padding(0)
                               .frame(minWidth: 80, minHeight: 60)
                               .background(Color.white, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                              .foregroundColor(.black)
                           
                           
 //                          iPhoneNumberField( text: $CreateAccountVM.mobileNumber, formatted: true)
@@ -159,12 +161,17 @@ struct NumberVerificationView: View {
                       
                       HStack {
                         
-                        TextField("Password", text: $CreateAccountVM.Password)
+                        TextField("", text: $CreateAccountVM.Password)
+                              .placeholder(when: CreateAccountVM.Password.isEmpty) {
+                                  Text("Password")
+                                      .foregroundColor(.secondary)
+                              }
                           .onChange(of: CreateAccountVM.Password) { oldValue, newValue in
                               print("Changing from \(oldValue) to \(newValue)")
                           }
                           .font(.custom("Avenir", size: 16))
-                              .keyboardType(.numberPad)
+                              .keyboardType(.default)
+                              .foregroundColor(.black)
                       }.padding().frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
                           .foregroundColor(.white))
                       
@@ -184,10 +191,14 @@ struct NumberVerificationView: View {
           //CustomButton2(ButtonType:, action: <#T##() -> Void#>)
           
           CustomButton3(ButtonTitle: "Verify", ButtonType: .mobileNumber) {
+              UIApplication.shared.endEditing()
+                  
+           
+              CreateAccountVM.HitGenerateOtp { id in
+                  moveToNext = true
+                  self.userId = id
+              }
             
-            CreateAccountVM.HitGenerateOtp()
-//            
-//            VerifyView()
           }.cornerRadius(30).padding(.all)
           Spacer()
           
@@ -195,9 +206,23 @@ struct NumberVerificationView: View {
 //
             
         }.navigationBarBackButtonHidden()
+            .navigationDestination(isPresented: $moveToNext , destination: {
+                VerifyView(userId: userId)
+            })
         .background( Color(Color("App Background")))
         .onAppear {
             isFocused = true
+            CreateAccountVM.countryCode = countryCode
+        }
+        
+        .toast(isPresenting: $CreateAccountVM.showToast){
+          AlertToast(displayMode: AlertToast.DisplayMode.alert, type: .regular, title:  CreateAccountVM.errorMessage)
+               
+        }
+        .overlay{
+          if !CreateAccountVM.generateOtpApi{
+            ProgressView("Creating account Please wait...").padding(.horizontal , 80).padding(.vertical , 30).background(RoundedRectangle(cornerRadius: 20).fill(Material.ultraThinMaterial).opacity(0.7))
+          }
         }
     }
 }
@@ -205,7 +230,13 @@ struct NumberVerificationView: View {
 #Preview {
     NumberVerificationView().environmentObject(QuestionsVM())
     
-  //  VerifyView().environmentObject(QuestionsVM())
+   // VerifyView(userId: 23).environmentObject(QuestionsVM())
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
 
 extension NumberVerificationView {
@@ -273,15 +304,16 @@ struct OnboardingButtonStyle: ButtonStyle {
     }
 }
 
-
-
-
 struct VerifyView: View {
     @EnvironmentObject var CreateAccountVM : QuestionsVM
-   
+    @State var userId: Int
+    
+    init(userId: Int) {
+        self.userId = userId
+    }
     var body: some View {
         VStack{
-            BackButton().padding(.top)
+         //   BackButton().padding(.top)
             Spacer(minLength: 20)
             ScrollView {
                 VStack(alignment: .center, spacing: 20 ) {
@@ -298,23 +330,46 @@ struct VerifyView: View {
                             
                         HStack {
                           
-                          TextField("", text: $CreateAccountVM.otp.max(4))
+                          TextField("", text: $CreateAccountVM.otp.max(6))
                             .onChange(of: CreateAccountVM.otp) { oldValue, newValue in
                                 print("Changing from \(oldValue) to \(newValue)")
                             }
                             .font(.custom("Avenir", size: 16))
                                 .keyboardType(.numberPad)
-                        }.padding().frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(.black)
+                        }.padding()
+                            .frame(height: 60)
+                            .background(RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.white))
                         Spacer()
                     }.padding(.horizontal ,20)
                 }.padding(0)
             }
-           
-            CustomButton(ButtonTitle: "Verify", ButtonType: .otp ,View: AnyView(NameView()), fontSize: 22).cornerRadius(30).padding(.all)
+            
+            CustomButton3(ButtonTitle: "Verify", ButtonType: .otp) {
+                UIApplication.shared.endEditing()
+                CreateAccountVM.VerifyUser(userId: userId) {
+                   
+                }
+            }.cornerRadius(30).padding(.all)
             Spacer()
             
         }.background( Color(Color("App Background")))
+            .navigationBarBackButtonHidden()
+            .navigationDestination(isPresented: $CreateAccountVM.otpVerified , destination: {
+                NameView().navigationBarBackButtonHidden()
+            })
+        
+            .toast(isPresenting: $CreateAccountVM.showToast){
+              AlertToast(displayMode: AlertToast.DisplayMode.alert, type: .regular, title:  CreateAccountVM.errorMessage)
+                   
+            }
+            .overlay{
+              if CreateAccountVM.otpVerificationStart{
+                ProgressView("Verifing...").padding(.horizontal , 80).padding(.vertical , 30).background(RoundedRectangle(cornerRadius: 20).fill(Material.ultraThinMaterial).opacity(0.7))
+              }
+            }
+            
     }
 }
 

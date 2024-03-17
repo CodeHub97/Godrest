@@ -17,5 +17,6 @@ struct APIConstants {
         static let profile = baseUrl + "/user/user-profiles"
         static let reportUser = baseUrl + "/user/report-user-profiles"
         static let blockUser = baseUrl + "/user/block-user-profiles"
+        static let verify  = baseUrl + "/api/user/verify-user"
     }
 }
