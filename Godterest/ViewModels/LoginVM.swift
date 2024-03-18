@@ -45,6 +45,7 @@ enum ToastErrorTypes: CaseIterable {
 class LoginVM : ObservableObject{
 
   @Published var Email:String = "" //john@yopmail.com"
+    @Published var mobileNumber:String = ""
   @Published var Password:String = "" //Test@123"
   @Published var errorMessage:String = ""
   @Published var PasswordOpen:Bool = false 
@@ -61,7 +62,7 @@ class LoginVM : ObservableObject{
           return
       }
 
-      let url = "\(MatchedVM.BaseURL)/user/post-login"
+      let url = "\(MatchedVM.BaseURL)/user/post-login?phone=\(self.mobileNumber)&password=\(self.Password)"
       let parameters: [String: String] = ["email": Email, "password": Password]
     self.LoginapiLoaded = false
       AF.request(url, method: .post, parameters: parameters).response { response in

@@ -377,7 +377,9 @@ class QuestionsVM : ObservableObject{
                     ethnicGroup: self.SelectedEthnic,
                     maritalStatus: self.SelectedMaritalStatues,
                     phoneNumber: self.mobileNumber,
-                    countryCode: self.countryCode
+                    countryCode: self.countryCode,
+                    studied: self.studied,
+                    studiedAt: self.studiedAt
                 )
                 
                

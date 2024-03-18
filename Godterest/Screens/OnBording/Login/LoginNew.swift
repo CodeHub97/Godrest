@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct LoginNew: View {
-    @EnvironmentObject var CreateAccountVM : QuestionsVM
-   
+    @ObservedObject var LoginViewModel = LoginVM()
+    @Environment(\.isLoggedIn) var isLoggedIn
+    
     var body: some View {
        
         VStack{
@@ -25,7 +26,7 @@ struct LoginNew: View {
                             .font(.custom("Avenir", size: 22))
                         HStack {
                           
-                            TextField("", text: $CreateAccountVM.mobileNumber).font(.custom("Avenir", size: 16))
+                            TextField("", text: $LoginViewModel.mobileNumber).font(.custom("Avenir", size: 16))
                                 .frame(height: 60)
                            
                                 .keyboardType(.numberPad)
@@ -40,11 +41,32 @@ struct LoginNew: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.gray)
                 .padding(-10)
-            CustomButton(ButtonTitle: "Login", ButtonType: .mobileNumber ,View: AnyView(VerifyView(userId: 34)), fontSize: 22).cornerRadius(30).padding(.all)
+           // CustomButton(ButtonTitle: "Login", ButtonType: .mobileNumber ,View: AnyView(VerifyView(userId: 34)), fontSize: 22)
+            
+            CustomButton3(ButtonTitle: "Login", ButtonType: .mobileNumber) {
+                UIApplication.shared.endEditing()
+                LoginViewModel.hitSignIN()
+               
+            }
+                .cornerRadius(30).padding(.all)
             Spacer()
             
         }.navigationBarBackButtonHidden()
         .background( Color(Color("App Background")))
+        
+        
+        .navigationDestination(isPresented: $LoginViewModel.LoginapiCompleted , destination: {
+            TabbarScreen().environment(\.isLoggedIn, true)
+        })
+    
+        .toast(isPresenting: $LoginViewModel.showToast){
+            AlertToast(displayMode: AlertToast.DisplayMode.alert, type: .regular, title: LoginViewModel.ErrorType == .LoginAPI ? LoginViewModel.errorMessage : LoginViewModel.ErrorType.errorMessage)
+        }
+        .overlay{
+          if !LoginViewModel.LoginapiLoaded{
+            ProgressView("Login...").padding(.horizontal , 80).padding(.vertical , 30).background(RoundedRectangle(cornerRadius: 20).fill(Material.ultraThinMaterial).opacity(0.7))
+          }
+        }
     }
 }
 

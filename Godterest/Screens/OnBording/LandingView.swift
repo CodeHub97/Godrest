@@ -55,8 +55,8 @@ struct LandingView: View {
         }.padding(.bottom, -10)
 
         NavigationLink {
-         // LoginNew()
-            LoginID()
+         LoginNew()
+           // LoginID()
         } label: {
           Text("Sign in").frame(width: 200, height: 40).fontWeight(.heavy)
             .foregroundColor(Color("App Background")).font(.custom("Avenir", size: 20))
