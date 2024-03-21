@@ -44,6 +44,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             
         QuestionsVM.Shared.deviceToken = token
         
+      
      }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -92,6 +93,7 @@ struct GodterestApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
   @State var ColorschemeViewModel = ColorSchemeVM()
   @State var CreateAccountViewModel = QuestionsVM()
+  @State var loginViewModel = LoginVM()
     var body: some Scene {
         WindowGroup {
           NavigationStack {
@@ -100,6 +102,7 @@ struct GodterestApp: App {
           }
           .environmentObject(ColorschemeViewModel)
           .environmentObject(CreateAccountViewModel) 
+          .environmentObject(loginViewModel)
         }
     }
   
