@@ -19,6 +19,7 @@
 		92F6A2CB2AC6AC350050D143 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F6A2C92AC6AC350050D143 /* APIConstants.swift */; };
 		92F6A2CC2AC6AC350050D143 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F6A2CA2AC6AC350050D143 /* APIKeys.swift */; };
 		BF4AA2B92B56E8A80033F656 /* DateViewNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4AA2B82B56E8A80033F656 /* DateViewNew.swift */; };
+		CEBF726B2BAF254400BE9CB5 /* VerifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBF726A2BAF254400BE9CB5 /* VerifyView.swift */; };
 		CECD41BE2B98CDE9003CAAEF /* CountryNumbers.json in Resources */ = {isa = PBXBuildFile; fileRef = CECD41BD2B98CDE9003CAAEF /* CountryNumbers.json */; };
 		CED579912B6024B400801CF5 /* NumberVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED5798F2B6024B400801CF5 /* NumberVerificationView.swift */; };
 		CED579922B6024B400801CF5 /* GenderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED579902B6024B400801CF5 /* GenderSelectionView.swift */; };
@@ -78,6 +79,7 @@
 		B596D1750013C64C9BF63654 /* Pods-Godterest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Godterest.release.xcconfig"; path = "Target Support Files/Pods-Godterest/Pods-Godterest.release.xcconfig"; sourceTree = "<group>"; };
 		BF4AA2B82B56E8A80033F656 /* DateViewNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateViewNew.swift; sourceTree = "<group>"; };
 		C184FD8ABB879F4D60DDE014 /* Pods_Godterest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Godterest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEBF726A2BAF254400BE9CB5 /* VerifyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		CECD41BD2B98CDE9003CAAEF /* CountryNumbers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CountryNumbers.json; sourceTree = "<group>"; };
 		CED5798F2B6024B400801CF5 /* NumberVerificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberVerificationView.swift; sourceTree = "<group>"; };
 		CED579902B6024B400801CF5 /* GenderSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderSelectionView.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				CED579902B6024B400801CF5 /* GenderSelectionView.swift */,
 				CECD41BD2B98CDE9003CAAEF /* CountryNumbers.json */,
 				CED5798F2B6024B400801CF5 /* NumberVerificationView.swift */,
+				CEBF726A2BAF254400BE9CB5 /* VerifyView.swift */,
 				CED6D8BB2B5E78080023029F /* LandingView.swift */,
 				FBF957F32AAADB5900B6D945 /* Signup */,
 				FBF957F22AAADB5400B6D945 /* Login */,
@@ -649,6 +652,7 @@
 				CED6D8BE2B5E78080023029F /* LandingView.swift in Sources */,
 				FBF957E42AAADAE100B6D945 /* GodterestApp.swift in Sources */,
 				FB1621E12ABA2F5200E209A5 /* QuestionsVM.swift in Sources */,
+				CEBF726B2BAF254400BE9CB5 /* VerifyView.swift in Sources */,
 				FB6CA8E72AC35DDD00D853E4 /* LoginDataModel.swift in Sources */,
 				FB1621D72ABA150F00E209A5 /* ActivityIndicator.swift in Sources */,
 				92F6A2C72AC697880050D143 /* ApiManager+Multipart.swift in Sources */,
