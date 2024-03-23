@@ -155,7 +155,7 @@ struct LoginNew: View {
       .navigationDestination(isPresented: $LoginViewModel.LoginapiCompleted , destination: {
        // TabbarScreen().environment(\.isLoggedIn, true)
         
-        VerifyView(userId: 0, verify: .login)
+        VerifyView(verify: .login)
         
       })
     

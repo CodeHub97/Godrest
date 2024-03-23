@@ -11,7 +11,7 @@ struct VerifyView: View {
   @EnvironmentObject var CreateAccountVM : QuestionsVM
   @EnvironmentObject var LoginViewModel: LoginVM
   
-  @State var userId: Int
+ // @State var userId: Int
   @State var verify: VerifyType
   
   enum VerifyType {
@@ -19,13 +19,13 @@ struct VerifyView: View {
     case login
   }
   
-  init(userId: Int, verify: VerifyType = .signup) {
-    self.userId = userId
+  init( verify: VerifyType = .signup) {
+    //self.userId = userId
     self.verify = verify
   }
   var body: some View {
     VStack{
-      //   BackButton().padding(.top)
+         BackButton().padding(.top)
       Spacer(minLength: 20)
       ScrollView {
         VStack(alignment: .center, spacing: 20 ) {
@@ -66,7 +66,7 @@ struct VerifyView: View {
           LoginViewModel.login(withOtp: CreateAccountVM.otp)
           break
         case .signup:
-          CreateAccountVM.VerifyUser(userId: userId) {
+          CreateAccountVM.VerifyUser() {
             
           }
           break
@@ -94,5 +94,5 @@ struct VerifyView: View {
 }
 
 #Preview {
-  VerifyView(userId: 23).environmentObject(QuestionsVM())
+  VerifyView().environmentObject(QuestionsVM())
 }

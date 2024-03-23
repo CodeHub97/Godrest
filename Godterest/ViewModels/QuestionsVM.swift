@@ -115,8 +115,8 @@ class QuestionsVM : ObservableObject{
     @Published var isSelectedProfession : String = ""
     @Published var SelectedProfilePic = ""
     @Published var isSelectedProfilePic : String = ""
-  @Published var studied = ""
-  @Published var studiedAt = ""
+    @Published var studied = ""
+    @Published var studiedAt = ""
     @Published var SelectedProfileUIImage = UIImage()
     @Published var isSelectedProfileUIImage : String = ""
     @Published var SelectedOtherPics = ""
@@ -161,7 +161,7 @@ class QuestionsVM : ObservableObject{
     @Published var StateIndex : Int = 1
     @Published var PostCode : String = ""
     @Published var FullAddress = ""
-
+    
     
     @Published var errorMessage:String = ""
     @Published var SignupapiCompleted = false
@@ -177,6 +177,7 @@ class QuestionsVM : ObservableObject{
     @Published var countryCode: String = ""
     @Published var otp: String = ""
     @Published var deviceToken = "dummy Token"
+    @Published var signUpId: Int = 0
     
     var formattedDateOfBirth: String {
         let dateFormatter = DateFormatter()
@@ -190,10 +191,10 @@ class QuestionsVM : ObservableObject{
     
     func validateFields() -> Bool {
         // Check if all fields are filled
-      if Email.isEmpty || Password.isEmpty || GenderSelect.stringValue.isEmpty || Name.isEmpty || formattedDateOfBirth.isEmpty || SelectedDenomination.isEmpty || SelectedProfession.isEmpty || studied.isEmpty || studiedAt.isEmpty || SelectedEthnic.isEmpty || SelectedEducation.isEmpty || SelectedHeight.isEmpty || SelectedMaritalStatues.isEmpty || SelectedHobbies.isEmpty || SelectedSmokeHabit.isEmpty || SelectedDrinkHabit.isEmpty || SelectedHaveChildren.isEmpty || SelectedWantChildren.isEmpty || Bio.isEmpty {
-          print("All fields must be filled")
-          return false
-      }
+        if Email.isEmpty || Password.isEmpty || GenderSelect.stringValue.isEmpty || Name.isEmpty || formattedDateOfBirth.isEmpty || SelectedDenomination.isEmpty || SelectedProfession.isEmpty || studied.isEmpty || studiedAt.isEmpty || SelectedEthnic.isEmpty || SelectedEducation.isEmpty || SelectedHeight.isEmpty || SelectedMaritalStatues.isEmpty || SelectedHobbies.isEmpty || SelectedSmokeHabit.isEmpty || SelectedDrinkHabit.isEmpty || SelectedHaveChildren.isEmpty || SelectedWantChildren.isEmpty || Bio.isEmpty {
+            print("All fields must be filled")
+            return false
+        }
         
         // Check email validation
         if !isValidEmail(email: Email) {
@@ -313,15 +314,16 @@ class QuestionsVM : ObservableObject{
         self.State = ""
         self.Country = ""
         self.PostCode = ""
-      
-      self.studied = ""
-      self.studiedAt = ""
-      self.mobileNumber = ""
-      self.countryCode = ""
-      self.Password = ""
-       
+        
+        self.studied = ""
+        self.studiedAt = ""
+        self.mobileNumber = ""
+        self.countryCode = ""
+        self.Password = ""
+        
         self.countryCode = ""
         self.otp = ""
+        self.signUpId = 0
     }
     
     func HitCreateAccount() {
@@ -379,10 +381,11 @@ class QuestionsVM : ObservableObject{
                     phoneNumber: self.mobileNumber,
                     countryCode: self.countryCode,
                     studied: self.studied,
-                    studiedAt: self.studiedAt
+                    studiedAt: self.studiedAt,
+                    id: self.signUpId
                 )
                 
-               
+                
                 
                 
                 print(userProfile)
@@ -461,8 +464,8 @@ class QuestionsVM : ObservableObject{
     }
     
     //MARK: Generate OTP
-  
-    func HitGenerateOtp(completion: @escaping(_ userId: Int) -> Void) {
+    
+    func HitGenerateOtp(completion: @escaping() -> Void) {
         self.generateOtpApi = false
         let url = "\(MatchedVM.BaseURL)/user/user-profiles"
         let parameters = GenerateOtp(password: self.Password, phoneNumber: self.mobileNumber, countryCode: self.countryCode)
@@ -503,10 +506,12 @@ class QuestionsVM : ObservableObject{
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                     
                     if let status = json?["status"] as? String, status == "success" {
-                       
+                        
                         if let data = json?["data"] as? [String: Any], let id = data["id"] as? Int {
                             debugPrint("Api data", data)
-                            completion(id)
+                            
+                            self.signUpId = id
+                            completion()
                         }
                         self.generateOtpApi = true
                     } else {
@@ -536,11 +541,11 @@ class QuestionsVM : ObservableObject{
             }
         }
     }
-     //MARK: Verify User
-    func VerifyUser(userId: Int,  completion: @escaping() -> Void) {
+    //MARK: Verify User
+    func VerifyUser(completion: @escaping() -> Void) {
         self.otpVerificationStart = true
-        let url = "\(MatchedVM.BaseURL)/user/verify-user?userId=\(userId)&otp=\(self.otp)"
-        let parameters = ["userId": "\(userId)", "otp": self.otp]
+        let url = "\(MatchedVM.BaseURL)/user/verify-user?userId=\(self.signUpId)&otp=\(self.otp)"
+        let parameters = ["userId": "\(self.signUpId)", "otp": self.otp]
         print(url)
         print(parameters)
         
@@ -576,7 +581,7 @@ class QuestionsVM : ObservableObject{
             if let data = response.data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                    
+                    debugPrint("Verify api", json)
                     if let status = json?["status"] as? String, status == "success" {
                         
                         self.otpVerificationStart = false
@@ -609,60 +614,60 @@ class QuestionsVM : ObservableObject{
             }
         }
     }
-     
     
     
-//    func HitEditProfile() {
-//        guard let savedLoginData = UserSettings.shared.getLoginData() else {
-//            return
-//        }
-//        print(savedLoginData.data?.id)
-//        let url = "\(MatchedVM.BaseURL)/user/user-profiles"
-//
-//        let userProfile = UserProfile(
-//            id: "\(savedLoginData.data?.id ?? 0)",
-//            email: Email,
-//            password:Password,
-//            gender: GenderSelect.stringValue,
-//            name: Name,
-//            dob: formattedDateOfBirth,
-//            denomination: SelectedDenomination,
-//            profession: SelectedProfession,
-//            ethnicgroup: SelectedEthnic,
-//            education: SelectedEducation,
-//            profilepic: "",//ProfilepicDemoURLS.randomElement() ?? ProfilepicDemoURLS[ProfilepicDemoURLS.count - 1],
-//            otherspic: "",//"\(ProfilepicDemoURLS[0]),\(ProfilepicDemoURLS[1]),\(ProfilepicDemoURLS[2]),\(ProfilepicDemoURLS[3]),\(ProfilepicDemoURLS[4])"
-//            latitude: "30.451",
-//            longitude: "70.354",
-//            tall: SelectedHeight,
-//            martialstatus: SelectedMaritalStatues,
-//            ethnicorigin: SelectedHobbies,
-//            smoke: SelectedSmokeHabit,
-//            alcohol: SelectedDrinkHabit,
-//            children: SelectedHaveChildren,
-//            childreninfuture: SelectedWantChildren,
-//            descriptions: Bio
-//        )
-//        print("Edit Profile Url ", url)
-//        print("Created Params ", userProfile)
-//
-//        AF.request(url, method: .post, parameters: userProfile, encoder: JSONParameterEncoder.default).response { response in
-//            // Handle the response here
-//            if let data = response.data {
-//                do {
-//                    let savedSignupData = try JSONDecoder().decode(LoginDataModel.self, from: data)
-//                    UserSettings.shared.saveLoginData(savedSignupData)
-//                    if let savedSignupData = UserSettings.shared.getLoginData() {
-//                        print(savedSignupData)
-//                    }
-//                } catch {
-//                    print("Error decoding login data: \(error)")
-//                }
-//            }else{
-//                print("API Failed hitSignIN")
-//            }
-//        }
-//    }
+    
+    //    func HitEditProfile() {
+    //        guard let savedLoginData = UserSettings.shared.getLoginData() else {
+    //            return
+    //        }
+    //        print(savedLoginData.data?.id)
+    //        let url = "\(MatchedVM.BaseURL)/user/user-profiles"
+    //
+    //        let userProfile = UserProfile(
+    //            id: "\(savedLoginData.data?.id ?? 0)",
+    //            email: Email,
+    //            password:Password,
+    //            gender: GenderSelect.stringValue,
+    //            name: Name,
+    //            dob: formattedDateOfBirth,
+    //            denomination: SelectedDenomination,
+    //            profession: SelectedProfession,
+    //            ethnicgroup: SelectedEthnic,
+    //            education: SelectedEducation,
+    //            profilepic: "",//ProfilepicDemoURLS.randomElement() ?? ProfilepicDemoURLS[ProfilepicDemoURLS.count - 1],
+    //            otherspic: "",//"\(ProfilepicDemoURLS[0]),\(ProfilepicDemoURLS[1]),\(ProfilepicDemoURLS[2]),\(ProfilepicDemoURLS[3]),\(ProfilepicDemoURLS[4])"
+    //            latitude: "30.451",
+    //            longitude: "70.354",
+    //            tall: SelectedHeight,
+    //            martialstatus: SelectedMaritalStatues,
+    //            ethnicorigin: SelectedHobbies,
+    //            smoke: SelectedSmokeHabit,
+    //            alcohol: SelectedDrinkHabit,
+    //            children: SelectedHaveChildren,
+    //            childreninfuture: SelectedWantChildren,
+    //            descriptions: Bio
+    //        )
+    //        print("Edit Profile Url ", url)
+    //        print("Created Params ", userProfile)
+    //
+    //        AF.request(url, method: .post, parameters: userProfile, encoder: JSONParameterEncoder.default).response { response in
+    //            // Handle the response here
+    //            if let data = response.data {
+    //                do {
+    //                    let savedSignupData = try JSONDecoder().decode(LoginDataModel.self, from: data)
+    //                    UserSettings.shared.saveLoginData(savedSignupData)
+    //                    if let savedSignupData = UserSettings.shared.getLoginData() {
+    //                        print(savedSignupData)
+    //                    }
+    //                } catch {
+    //                    print("Error decoding login data: \(error)")
+    //                }
+    //            }else{
+    //                print("API Failed hitSignIN")
+    //            }
+    //        }
+    //    }
     
     
     
@@ -890,7 +895,7 @@ class QuestionsVM : ObservableObject{
         "Unable to attend",
         "Not for me"
     ]
-
+    
     // Function to generate random values
     //  func generateRandomJSON() -> String {
     //

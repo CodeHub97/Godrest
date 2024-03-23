@@ -55,7 +55,7 @@ struct NumberVerificationView: View {
   @State var countryLimit : Int = 17
   @State var mobPhoneNumber = ""
   @State private var searchCountry: String = ""
-  @State private var userId: Int = 0
+  //@State private var userId: Int = 0
   
   @FocusState private var keyIsFocused: Bool
   
@@ -136,21 +136,21 @@ struct NumberVerificationView: View {
               }
               .presentationDetents([.medium, .large])
             
-            HStack {
-              
-              TextField("", text: $CreateAccountVM.Password)
-                .placeholder(when: CreateAccountVM.Password.isEmpty) {
-                  Text("Password")
-                    .foregroundColor(.secondary)
-                }
-                .onChange(of: CreateAccountVM.Password) { oldValue, newValue in
-                  print("Changing from \(oldValue) to \(newValue)")
-                }
-                .font(.custom("Avenir", size: 16))
-                .keyboardType(.default)
-                .foregroundColor(.black)
-            }.padding().frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
-              .foregroundColor(.white))
+//            HStack {
+//              
+//              TextField("", text: $CreateAccountVM.Password)
+//                .placeholder(when: CreateAccountVM.Password.isEmpty) {
+//                  Text("Password")
+//                    .foregroundColor(.secondary)
+//                }
+//                .onChange(of: CreateAccountVM.Password) { oldValue, newValue in
+//                  print("Changing from \(oldValue) to \(newValue)")
+//                }
+//                .font(.custom("Avenir", size: 16))
+//                .keyboardType(.default)
+//                .foregroundColor(.black)
+//            }.padding().frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
+//              .foregroundColor(.white))
             
             
             .padding(0).frame(height: 60).background(RoundedRectangle(cornerRadius: 10)
@@ -171,9 +171,9 @@ struct NumberVerificationView: View {
         UIApplication.shared.endEditing()
         
         
-        CreateAccountVM.HitGenerateOtp { id in
+        CreateAccountVM.HitGenerateOtp { 
           moveToNext = true
-          self.userId = id
+         // self.userId = id
         }
         
       }.cornerRadius(30).padding(.all)
@@ -181,7 +181,7 @@ struct NumberVerificationView: View {
       
     }.navigationBarBackButtonHidden()
       .navigationDestination(isPresented: $moveToNext , destination: {
-        VerifyView(userId: userId)
+        VerifyView()
       })
       .background( Color(Color("App Background")))
       .onAppear {
