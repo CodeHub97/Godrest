@@ -99,6 +99,7 @@ struct GodterestApp: App {
     @State var loginViewModel = LoginVM()
     var body: some Scene {
         WindowGroup {
+<<<<<<< Updated upstream
             NavigationStack {
                 ContentView()
                     .environment(\.isLoggedIn, false)
@@ -106,6 +107,17 @@ struct GodterestApp: App {
             .environmentObject(ColorschemeViewModel)
             .environmentObject(CreateAccountViewModel)
             .environmentObject(loginViewModel)
+=======
+          NavigationStack {
+     
+              
+            ContentView()
+                  .environment(\.isLoggedIn, false)
+          }
+          .environmentObject(ColorschemeViewModel)
+          .environmentObject(CreateAccountViewModel) 
+          .environmentObject(loginViewModel)
+>>>>>>> Stashed changes
         }
     }
 }

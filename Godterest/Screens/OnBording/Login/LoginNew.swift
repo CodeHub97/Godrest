@@ -158,6 +158,8 @@ struct LoginNew: View {
         VerifyView(verify: .login)
         
       })
+      
+      .disabled(!LoginViewModel.LoginapiLoaded)
     
       .toast(isPresenting: $LoginViewModel.showToast){
         AlertToast(displayMode: AlertToast.DisplayMode.alert,

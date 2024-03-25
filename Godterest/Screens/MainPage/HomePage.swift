@@ -56,7 +56,10 @@ struct HomePage: View {
             }
         }.onAppear{
             ColorschemeViewModel.SelectedColorScheme = .dark
-            AccountSetupViewModel.HitAllProfileList()
+           // AccountSetupViewModel.HitAllProfileList()
+            
+            AccountSetupViewModel.getNearbyUsers()
+            
             //      AccountSetupViewModel.allProfiles.append(AccountSetupViewModel.profile1)
         }
         .onDisappear{

@@ -284,6 +284,17 @@ class UserSettings {
     }
     return nil
   }
+    
+    
+    var radiusDistance: Double {
+        set {
+             userDefaults.set(newValue, forKey: "distance")
+            userDefaults.synchronize()
+        }
+        get{
+            return (userDefaults.value(forKey: "distance") as? Double) ?? 0.0
+        }
+    }
   
   func clearLoginData() {
     userDefaults.removeObject(forKey: "loginData")

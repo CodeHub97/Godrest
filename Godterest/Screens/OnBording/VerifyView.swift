@@ -89,7 +89,7 @@ struct VerifyView: View {
           
        
       })
-    
+      .disabled((verify == .login ? LoginViewModel.otpVerificationStart : CreateAccountVM.otpVerificationStart))
       .toast(isPresenting: verify == .login ? $LoginViewModel.showToast : $CreateAccountVM.showToast){
         AlertToast(displayMode: AlertToast.DisplayMode.alert, type: .regular, title:  CreateAccountVM.errorMessage)
         

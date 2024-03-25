@@ -19,9 +19,16 @@ struct ContentView: View {
     var body: some View {
         ZStack {
           Color.black.ignoresSafeArea()
-          
-            DonationVC()
-                .opacity(!SplashDone ? 0 : 1)            
+      
+            
+           if let _ = UserSettings.shared.getLoginData() {
+               TabbarScreen()
+            }else {
+                DonationVC()
+                    .opacity(!SplashDone ? 0 : 1)
+            }
+            
+                   
         
           Image("Logo Color")
               .resizable()

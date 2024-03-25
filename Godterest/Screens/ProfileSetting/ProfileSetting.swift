@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct ProfileSetting: View {
 
   @State var isLogout = false
@@ -25,14 +26,33 @@ struct ProfileSetting: View {
 
           AddText(TextString: "General", TextSize: 18,Color: Color.black,FontWeight: .medium).padding(.leading,30).padding(.top)
 
-          NavigationLink {
-            EditProfileScreen()
-          } label: {
-            SettingRow(ImageUse: "Share", Title: "Edit Your Profile").background{
-              RoundedRectangle(cornerRadius: 20).foregroundColor(.gray.opacity(0.1)).frame(height: 60)
+            
+            VStack(spacing: 0) {
 
-            }.padding(.horizontal ,30)
-          }
+                NavigationLink {
+                  EditProfileScreen()
+                } label: {
+                  SettingRow(ImageUse: "Share", Title: "Edit Your Profile").background{
+                   // RoundedRectangle(cornerRadius: 20).foregroundColor(.gray.opacity(0.1)).frame(height: 60)
+
+                  }//.padding(.horizontal ,30)
+                }
+                  Divider()
+                  
+                  NavigationLink {
+                    RadiusFilterView()
+                  } label: {
+                      SettingRow(ImageUse: "Share", Title: "Set serach radius").background{
+                     // RoundedRectangle(cornerRadius: 20).foregroundColor(.gray.opacity(0.1)).frame(height: 60)
+
+                    }
+                  }
+            }.background{
+              RoundedRectangle(cornerRadius: 20).foregroundColor(.gray.opacity(0.1))
+
+            }.padding(30)
+            
+         
 
           VStack(spacing: 0) {
 

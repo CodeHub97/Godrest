@@ -715,6 +715,62 @@ class QuestionsVM : ObservableObject{
     }
     
     
+    func getNearbyUsers() {
+    
+        guard let coordinates = LocationViewModel.shared.locationManager.location?.coordinate  else {
+            return
+        }
+        
+        
+        
+        let url = "\(MatchedVM.BaseURL)/user/near-by-users?radius=\(100000)&latitude=\(coordinates.latitude)&longitude=\(coordinates.longitude)"
+        print("getNearbyUsers " , url)
+        
+        AF.request(url, method: .get).responseJSON { response in
+            
+            
+            switch response.result {
+            case .success(let value):
+                var Status = ""
+                
+                
+                debugPrint(value)
+                
+                guard let json = value as? [String: Any]else {
+                    return
+                }
+                
+                debugPrint("API RESPONSE", json)
+                
+                Status = json["status"] as! String
+                if Status != "fail"{
+                    
+                    if let json = value as? [String: Any],
+                       let AllprofileData = json["data"] as? [[String: Any]] {
+                        
+                        do {
+                            let AllprofileDataList = try JSONDecoder().decode([ProfileDatum].self, from: JSONSerialization.data(withJSONObject: AllprofileData))
+                            print(AllprofileDataList)
+                            DispatchQueue.main.async {
+                                self.allProfiles = AllprofileDataList
+                                self.isDataLoaded = true
+                            }
+                        } catch {
+                            print("Error decoding profile data: \(error)")
+                        }
+                    }
+                }else {
+                    
+                    print("API Error: HitAllProfileList")
+                    print(json["message"] as! String)
+                }
+            case .failure(let error):
+                print("API Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    
     func removeProfile(withID id: Int?) {
         if let id = id, let index = allProfiles.firstIndex(where: { $0.id == id }) {
             allProfiles.remove(at: index)
