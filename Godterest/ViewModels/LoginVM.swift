@@ -227,6 +227,7 @@ class LoginVM : ObservableObject{
             } else {
               print("Error decoding login data.")
               self.LoginapiLoaded = true
+                
             }
             
           } else {

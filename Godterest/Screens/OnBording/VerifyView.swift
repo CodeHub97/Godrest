@@ -78,7 +78,16 @@ struct VerifyView: View {
     }.background( Color(Color("App Background")))
       .navigationBarBackButtonHidden()
       .navigationDestination(isPresented: verify == .login ? $LoginViewModel.otpVerified : $CreateAccountVM.otpVerified , destination: {
-        NameView().navigationBarBackButtonHidden()
+          switch verify {
+          case .signup:
+              NameView().navigationBarBackButtonHidden()
+  
+          case .login:
+              TabbarScreen().environment(\.isLoggedIn, true)
+           
+          }
+          
+       
       })
     
       .toast(isPresenting: verify == .login ? $LoginViewModel.showToast : $CreateAccountVM.showToast){
