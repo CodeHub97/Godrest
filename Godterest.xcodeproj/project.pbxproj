@@ -13,7 +13,9 @@
 		27D58C8B2B7C9AAB00296B9C /* QuestionsViewNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27D58C8A2B7C9AAB00296B9C /* QuestionsViewNew.swift */; };
 		4AE254930C9F886F7CB816C3 /* Pods_Godterest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C184FD8ABB879F4D60DDE014 /* Pods_Godterest.framework */; };
 		9220BD122B32F95400D01873 /* DonationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9220BD112B32F95400D01873 /* DonationVC.swift */; };
+		925E42DB2BB019FB004ADDA2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 925E42DA2BB019FB004ADDA2 /* GoogleService-Info.plist */; };
 		92A49E5F2AC8909700B20DC4 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A49E5E2AC8909700B20DC4 /* SessionManager.swift */; };
+		92C586EA2BAF3D800048EA3F /* VerifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C586E92BAF3D800048EA3F /* VerifyView.swift */; };
 		92F6A2C52AC697250050D143 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F6A2C42AC697250050D143 /* APIManager.swift */; };
 		92F6A2C72AC697880050D143 /* ApiManager+Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F6A2C62AC697880050D143 /* ApiManager+Multipart.swift */; };
 		92F6A2CB2AC6AC350050D143 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F6A2C92AC6AC350050D143 /* APIConstants.swift */; };
@@ -70,7 +72,9 @@
 		272A95FB2B60EF0500D0660F /* LoginNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNew.swift; sourceTree = "<group>"; };
 		27D58C8A2B7C9AAB00296B9C /* QuestionsViewNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionsViewNew.swift; sourceTree = "<group>"; };
 		9220BD112B32F95400D01873 /* DonationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonationVC.swift; sourceTree = "<group>"; };
+		925E42DA2BB019FB004ADDA2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		92A49E5E2AC8909700B20DC4 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		92C586E92BAF3D800048EA3F /* VerifyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyView.swift; sourceTree = "<group>"; };
 		92F6A2C42AC697250050D143 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		92F6A2C62AC697880050D143 /* ApiManager+Multipart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ApiManager+Multipart.swift"; sourceTree = "<group>"; };
 		92F6A2C92AC6AC350050D143 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 				CED579902B6024B400801CF5 /* GenderSelectionView.swift */,
 				CECD41BD2B98CDE9003CAAEF /* CountryNumbers.json */,
 				CED5798F2B6024B400801CF5 /* NumberVerificationView.swift */,
+				92C586E92BAF3D800048EA3F /* VerifyView.swift */,
 				CED6D8BB2B5E78080023029F /* LandingView.swift */,
 				FBF957F32AAADB5900B6D945 /* Signup */,
 				FBF957F22AAADB5400B6D945 /* Login */,
@@ -434,6 +439,7 @@
 				FBF73BB82AB75D50005C1C64 /* COLOR Scheme */,
 				FBF957E52AAADAE100B6D945 /* ContentView.swift */,
 				FBF957E72AAADAE200B6D945 /* Assets.xcassets */,
+				925E42DA2BB019FB004ADDA2 /* GoogleService-Info.plist */,
 				FBF957E92AAADAE200B6D945 /* Preview Content */,
 				FB7705582AAF6694001C1F01 /* Launch Screen.storyboard */,
 			);
@@ -562,6 +568,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB7705592AAF6694001C1F01 /* Launch Screen.storyboard in Resources */,
+				925E42DB2BB019FB004ADDA2 /* GoogleService-Info.plist in Resources */,
 				CECD41BE2B98CDE9003CAAEF /* CountryNumbers.json in Resources */,
 				FB9064042AB716C0002C6E41 /* Assets.xcassets in Resources */,
 				FBF957EB2AAADAE200B6D945 /* Preview Assets.xcassets in Resources */,
@@ -649,6 +656,7 @@
 				CED6D8BE2B5E78080023029F /* LandingView.swift in Sources */,
 				FBF957E42AAADAE100B6D945 /* GodterestApp.swift in Sources */,
 				FB1621E12ABA2F5200E209A5 /* QuestionsVM.swift in Sources */,
+				92C586EA2BAF3D800048EA3F /* VerifyView.swift in Sources */,
 				FB6CA8E72AC35DDD00D853E4 /* LoginDataModel.swift in Sources */,
 				FB1621D72ABA150F00E209A5 /* ActivityIndicator.swift in Sources */,
 				92F6A2C72AC697880050D143 /* ApiManager+Multipart.swift in Sources */,
@@ -796,12 +804,10 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Godterest/Godterest.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Godterest/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = TWML9NCY32;
+				DEVELOPMENT_TEAM = F63GGXTV46;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Godterest/Info.plist;
@@ -822,10 +828,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.offsure.rnd;
+				PRODUCT_BUNDLE_IDENTIFIER = com.godterest.Godterest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = rnd_provisioning_profile;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -844,12 +849,10 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Godterest/Godterest.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Godterest/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = TWML9NCY32;
+				DEVELOPMENT_TEAM = F63GGXTV46;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Godterest/Info.plist;
@@ -870,10 +873,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.4;
-				PRODUCT_BUNDLE_IDENTIFIER = com.offsure.rnd;
+				PRODUCT_BUNDLE_IDENTIFIER = com.godterest.Godterest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = rnd_provisioning_profile;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

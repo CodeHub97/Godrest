@@ -40,3 +40,38 @@ struct LoginDataClass: Codable {
     }
 }
 
+
+
+//["message": Login Succesfully, "status": 200, "userProfile": {
+//    alcohol = "<null>";
+//    children = "<null>";
+//    childrenInFuture = "<null>";
+//    countryCode = "+91";
+//    creationTime = 1711203759511;
+//    denomination = "<null>";
+//    descriptions = "<null>";
+//    dob = "<null>";
+//    education = "<null>";
+//    ethnicGroup = "<null>";
+//    ethnicOrigin = "<null>";
+//    gender = "<null>";
+//    id = 108;
+//    isAccountDeactivated = 0;
+//    isAccountDeleted = 0;
+//    isPhoneVerified = 1;
+//    latitude = 0;
+//    longitude = 0;
+//    maritalStatus = "<null>";
+//    name = "<null>";
+//    otherPic = "<null>";
+//    password = "";
+//    phoneNumber = 9417909276;
+//    profession = "<null>";
+//    profilePic = "<null>";
+//    reportedCount = "<null>";
+//    smoke = "<null>";
+//    studied = "<null>";
+//    studiedAt = "<null>";
+//    tall = "<null>";
+//    updationTime = "<null>";
+//}])

@@ -390,7 +390,7 @@ class QuestionsVM : ObservableObject{
                 
                 print(userProfile)
                 
-                let headers: HTTPHeaders = ["deviceToken": self.deviceToken]
+                let headers: HTTPHeaders = ["deviceToken": QuestionsVM.Shared.deviceToken]
                 
                 do {
                     let encoder = JSONEncoder()
@@ -483,7 +483,7 @@ class QuestionsVM : ObservableObject{
             print("Error encoding user profile: \(error)")
         }
         
-        let headers: HTTPHeaders = ["deviceToken": self.deviceToken]
+        let headers: HTTPHeaders = ["deviceToken": QuestionsVM.Shared.deviceToken]
         
         AF.request(url,
                    method: .post,
@@ -560,7 +560,7 @@ class QuestionsVM : ObservableObject{
             print("Error encoding user profile: \(error)")
         }
         
-        let headers: HTTPHeaders = ["deviceToken": self.deviceToken]
+        let headers: HTTPHeaders = ["deviceToken": QuestionsVM.Shared.deviceToken]
         
         AF.request(url,
                    method: .post,
